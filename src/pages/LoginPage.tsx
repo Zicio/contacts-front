@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { IUser } from "../models/models";
 import { useLazyLoginQuery } from "../store/api/contacts.api";
@@ -11,19 +11,21 @@ const LoginPage: React.FC = () => {
     password: "",
   });
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const handleChange: React.ChangeEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const name: string = e.target.name;
-    const value: string = (
-      e.target.value[0].toUpperCase + e.target.value.slice(1)
-    ).trim();
+    const value: string = e.target.value.trim();
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
   };
 
-  const handleSubmit: React.FormEventHandler = (e: React.FormEvent) => {
+  const handleSubmit: React.FormEventHandler = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetchData(form);
+    await fetchData(form);
   };
 
   return (

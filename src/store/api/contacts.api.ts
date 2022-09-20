@@ -8,10 +8,11 @@ export const contactsApi = createApi({
   }),
   refetchOnReconnect: true,
   endpoints: (build) => ({
-    login: build.query<any, IUser>({
+    login: build.query<string | undefined, IUser>({
       query: (user: IUser) => ({
         url: "contacts",
         method: "POST",
+        body: user,
       }),
     }),
   }),

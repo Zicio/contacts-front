@@ -5,8 +5,8 @@ import LoginPage from "../pages/LoginPage";
 function App() {
   return (
     <Routes>
-      <Route path="/contacts" element={<ContactsPage />} />
-      <Route path="/" element={<LoginPage />} />
+      <Route path="/contacts/list" element={<ContactsPage />} />
+      <Route path="/contacts" element={<LoginPage />} />
     </Routes>
   );
 }

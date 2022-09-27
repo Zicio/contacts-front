@@ -10,9 +10,9 @@ export const contactsApi = createApi({
   endpoints: (build) => ({
     login: build.query<string, IUser>({
       query: (user: IUser) => ({
-        url: "contacts",
+        url: "authorization",
         method: "POST",
-        body: JSON.stringify(user),
+        body: user,
       }),
     }),
   }),

@@ -11,9 +11,9 @@ const LoginPage: React.FC = () => {
     password: "",
   });
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const handleChange: React.ChangeEventHandler = (
     e: React.ChangeEvent<HTMLInputElement>

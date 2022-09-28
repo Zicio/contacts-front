@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .input {
-  @apply block border border-black rounded-md p-[5px];
+  @apply block rounded-md p-[5px];
 }
 
 .button {
-  @apply border rounded-md p-[5px] text-white hover:shadow-md hover:shadow-black;
+  @apply rounded-md p-[5px] text-white hover:shadow-lg hover:shadow-fuchsia-600 text-xl;
 }

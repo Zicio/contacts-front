@@ -1,82 +1,96 @@
-import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 import Loader from "../components/Loader";
 import { IUser } from "../models/models";
-
 import { useLazyAuthorizationQuery } from "../store/api/contacts.api";
+import Notification from "../components/Notification";
 
 const AuthPage: React.FC = () => {
   const [fetchData, { data, isLoading, isError }] = useLazyAuthorizationQuery();
 
-  // const [form, setForm] = useState<IUser>({
-  //   username: "",
-  //   password: "",
-  // });
-
   const {
     register,
-    formState: { errors },
+    control,
+    formState: { errors, isValid },
     handleSubmit,
-  } = useForm<IUser>();
+    reset,
+  } = useForm<IUser>({
+    mode: "onChange",
+  });
 
-  // const handleChange: React.ChangeEventHandler = (
-  //   e: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const name: string = e.target.name;
-  //   const value: string = e.target.value.trim();
-  //   setForm((prevForm) => ({ ...prevForm, [name]: value }));
-  // };
+  const onSubmit: SubmitHandler<IUser> = async (form: IUser) => {
+    await fetchData(form);
 
-  const onSubmit: SubmitHandler<IUser> = async (data: IUser) => {
-    // e.preventDefault();
-    await fetchData(data);
+    reset();
   };
 
   return (
-    <main className="flex justify-center items-start mx-auto h-screen text-md">
+    <main className="flex justify-center items-start mx-auto h-screen text-md bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400">
       <form
-        className="border border-blue-400 rounded-md shadow-sm shadow-red-600 p-[15px] mt-[40px]"
+        className="border border-black rounded-md shadow-lg shadow-black p-[15px] mt-[40px] min-w-[300px] bg-gray-800"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="font-bold text-xl text-center">Вход</h1>
+        <h1 className="font-bold text-xl text-center text-fuchsia-600">Вход</h1>
         <input
-          {...(register("username"),
-          {
+          {...register("username", {
             required: "Поле обязательно к заполнению!",
+            minLength: {
+              value: 4,
+              message: "Минимум 5 символов",
+            },
+            maxLength: {
+              value: 10,
+              message: "Максимум 10 символов",
+            },
+            pattern: {
+              value: /[A-Za-z]/g,
+              message: "Только латинские буквы",
+            },
           })}
-          className="input mt-[20px]"
+          className="input mt-[20px] w-full"
           type="text"
           placeholder="Введите имя пользователя"
-          // name="username"
-          value="2"
           disabled={isLoading}
-          // onChange={handleChange}
-          // required
         />
-        <div>{errors?.username && <p>{errors?.username?.message}</p>}</div>
+        <Notification name={errors.username} />
 
         <input
-          {...register("password")}
-          className="input mt-[20px]"
+          {...register("password", {
+            required: "Поле обязательно к заполнению!",
+            minLength: {
+              value: 5,
+              message: "Минимум 5 символов",
+            },
+            maxLength: {
+              value: 10,
+              message: "Максимум 10 символов",
+            },
+            pattern: {
+              value: /[A-Za-z0-9]/g,
+              message: "Только латинские буквы",
+            },
+          })}
+          className="input mt-[20px] w-full"
           type="text"
           placeholder="Введите пароль"
-          // name="password"
-          // value={form.password}
           disabled={isLoading}
-          // onChange={handleChange}
-          // required
         />
+        <Notification name={errors.password} />
         {isLoading ? (
           <Loader />
         ) : (
           <button
-            className="button mt-[20px] block mx-auto bg-blue-600"
+            className={`button ${
+              !isValid && "opacity-50 hover:shadow-none"
+            } mt-[20px] block mx-auto bg-fuchsia-600`}
             type="submit"
+            disabled={!isValid}
           >
             Войти
           </button>
         )}
       </form>
+      <DevTool control={control} />
     </main>
   );
 };

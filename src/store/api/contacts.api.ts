@@ -8,7 +8,7 @@ export const contactsApi = createApi({
   }),
   refetchOnReconnect: true,
   endpoints: (build) => ({
-    login: build.query<string, IUser>({
+    authorization: build.query<string, IUser>({
       query: (user: IUser) => ({
         url: "authorization",
         method: "POST",
@@ -18,4 +18,4 @@ export const contactsApi = createApi({
   }),
 });
 
-export const { useLazyLoginQuery } = contactsApi;
+export const { useLazyAuthorizationQuery } = contactsApi;

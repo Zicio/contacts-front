@@ -1,12 +1,20 @@
-import { Route, Routes } from "react-router-dom";
-import ContactsPage from "../pages/ContactsPage";
+import { Navigate, Route, Routes } from "react-router-dom";
+import ListPage from "../pages/ListPage";
 import AuthPage from "../pages/AuthPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/contacts/list" element={<ContactsPage />} />
-      <Route path="/contacts" element={<AuthPage />} />
+      <Route
+        path="/contacts"
+        element={
+          <>
+            <Navigate to={"/contacts/auth"} replace />
+          </>
+        }
+      />
+      <Route path="/contacts/auth" element={<AuthPage />} />
+      <Route path="/contacts/list" element={<ListPage />} />
     </Routes>
   );
 }

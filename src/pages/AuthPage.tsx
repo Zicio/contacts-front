@@ -5,9 +5,13 @@ import { IUser } from "../models/models";
 import { useLazyAuthorizationQuery } from "../store/api/contacts.api";
 import Notification from "../components/Notification";
 import Input from "../components/Input";
+import { useEffect } from "react";
+import { SerializedError } from "@reduxjs/toolkit";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 
 const AuthPage: React.FC = () => {
-  const [fetchData, { data, isLoading, isError }] = useLazyAuthorizationQuery();
+  const [fetchData, { data, isLoading, isError, error }] =
+    useLazyAuthorizationQuery();
 
   const methods = useForm<IUser>({
     mode: "onChange",
@@ -24,6 +28,10 @@ const AuthPage: React.FC = () => {
     reset();
   };
 
+  // useEffect(() => {
+  //   console.log(error);
+  // });
+
   return (
     <main className="flex justify-center items-start mx-auto h-screen text-md bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400">
       <FormProvider {...methods}>
@@ -34,10 +42,10 @@ const AuthPage: React.FC = () => {
           <h1 className="font-bold text-xl text-center text-fuchsia-600">
             Вход
           </h1>
-          <Input name={"username"} />
-          <Notification name={errors.username} />
-          <Input name={"password"} />
-          <Notification name={errors.password} />
+          <Input name={"username"} active={isLoading} />
+          <Notification message={errors.username?.message} />
+          <Input name={"password"} active={isLoading} />
+          <Notification message={errors.password?.message} />
           {isLoading ? (
             <Loader />
           ) : (
@@ -52,6 +60,7 @@ const AuthPage: React.FC = () => {
             </button>
           )}
         </form>
+        {isError && <Notification name={error?.data} />}
         <DevTool control={control} />
       </FormProvider>
     </main>

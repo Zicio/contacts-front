@@ -1,24 +1,27 @@
-import { useFormContext } from "react-hook-form";
+import { FieldValues, useFormContext, UseFormReturn } from "react-hook-form";
 import { Warning } from "../models/models";
 
-const Input: React.FC<{ name: string }> = (props) => {
-  const { name } = props;
-  const { register } = useFormContext();
+const Input: React.FC<{ name: string; active: boolean }> = (props) => {
+  const { name, active } = props;
+  const { register }: UseFormReturn<FieldValues> = useFormContext();
+  const minLength: number = 4;
+  const maxLength: number = 10;
 
   return (
     <input
       className="input mt-[20px] w-full"
       type="text"
       placeholder={"Введите " + Warning[name as keyof typeof Warning]}
+      disabled={active}
       {...register(name, {
         required: "Поле обязательно к заполнению!",
         minLength: {
-          value: 5,
-          message: "Минимум 5 символов",
+          value: minLength,
+          message: `Минимум ${minLength} символа`,
         },
         maxLength: {
-          value: 10,
-          message: "Максимум 10 символов",
+          value: maxLength,
+          message: `Максимум ${maxLength} символов`,
         },
         pattern: {
           value: /[A-Za-z0-9]/g,

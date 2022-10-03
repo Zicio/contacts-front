@@ -9,3 +9,11 @@
 .button {
   @apply rounded-md p-[5px] text-white hover:shadow-lg hover:shadow-fuchsia-600 text-xl;
 }
+
+.loader-svg {
+  @apply text-blue-200 animate-spin fill-fuchsia-600;
+}
+
+.loader-svg-small {
+  @apply w-[30px] h-[30px];
+}

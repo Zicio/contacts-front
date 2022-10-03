@@ -1,6 +1,6 @@
 const Loader: React.FC = () => {
   return (
-    <>
+    <div className="mx-auto w-fit">
       <svg
         aria-hidden="true"
         className={"loader-svg loader-svg-small"}
@@ -18,7 +18,7 @@ const Loader: React.FC = () => {
         />
       </svg>
       <span className="sr-only">Loading...</span>
-    </>
+    </div>
   );
 };
 

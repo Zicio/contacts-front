@@ -1,13 +1,10 @@
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import Loader from "../components/Loader";
-import { IUser } from "../models/models";
+import { CustomError, IUser } from "../models/models";
 import { useLazyAuthorizationQuery } from "../store/api/contacts.api";
 import Notification from "../components/Notification";
 import Input from "../components/Input";
-import { useEffect } from "react";
-import { SerializedError } from "@reduxjs/toolkit";
-import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 
 const AuthPage: React.FC = () => {
   const [fetchData, { data, isLoading, isError, error }] =
@@ -26,14 +23,11 @@ const AuthPage: React.FC = () => {
   const onSubmit: SubmitHandler<IUser> = async (form: IUser) => {
     await fetchData(form);
     reset();
+    console.log(isError);
   };
 
-  // useEffect(() => {
-  //   console.log(error);
-  // });
-
   return (
-    <main className="flex justify-center items-start mx-auto h-screen text-md bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400">
+    <main className="flex justify-center items-center mx-auto h-screen text-md bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400">
       <FormProvider {...methods}>
         <form
           className="border border-black rounded-md shadow-lg shadow-black p-[15px] mt-[40px] min-w-[300px] bg-gray-800"
@@ -52,15 +46,15 @@ const AuthPage: React.FC = () => {
             <button
               className={`button ${
                 !isValid && "opacity-50 hover:shadow-none"
-              } mt-[20px] block mx-auto bg-fuchsia-600`}
+              } mt-[20px] block mx-auto mb-[20px] bg-fuchsia-600`}
               type="submit"
               disabled={!isValid}
             >
               Войти
             </button>
           )}
+          {isError && <Notification message={(error as CustomError).data} />}
         </form>
-        {isError && <Notification name={error?.data} />}
         <DevTool control={control} />
       </FormProvider>
     </main>

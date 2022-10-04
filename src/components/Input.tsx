@@ -1,8 +1,10 @@
 import { FieldValues, useFormContext, UseFormReturn } from "react-hook-form";
 import { Warning } from "../models/models";
 
-const Input: React.FC<{ name: string; active: boolean }> = (props) => {
-  const { name, active } = props;
+const Input: React.FC<{ name: string; type: string; active: boolean }> = (
+  props
+) => {
+  const { name, type, active } = props;
   const { register }: UseFormReturn<FieldValues> = useFormContext();
   const minLength: number = 4;
   const maxLength: number = 10;
@@ -10,11 +12,15 @@ const Input: React.FC<{ name: string; active: boolean }> = (props) => {
   return (
     <input
       className="input mt-[20px] w-full"
-      type="text"
+      type={type}
       placeholder={"Введите " + Warning[name as keyof typeof Warning]}
       disabled={active}
       {...register(name, {
         required: "Поле обязательно к заполнению!",
+        pattern: {
+          value: /[A-Za-z0-9]/g,
+          message: "Только латинские буквы",
+        },
         minLength: {
           value: minLength,
           message: `Минимум ${minLength} символа`,
@@ -22,10 +28,6 @@ const Input: React.FC<{ name: string; active: boolean }> = (props) => {
         maxLength: {
           value: maxLength,
           message: `Максимум ${maxLength} символов`,
-        },
-        pattern: {
-          value: /[A-Za-z0-9]/g,
-          message: "Только латинские буквы",
         },
       })}
     />

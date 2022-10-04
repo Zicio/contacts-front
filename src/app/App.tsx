@@ -14,7 +14,7 @@ function App() {
         }
       />
       <Route path="/contacts/auth" element={<AuthPage />} />
-      <Route path="/contacts/list" element={<ListPage />} />
+      <Route path="/contacts/:user" element={<ListPage />} />
     </Routes>
   );
 }

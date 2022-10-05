@@ -1,5 +1,5 @@
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import { DevTool } from "@hookform/devtools";
 import Loader from "../components/Loader";
 import { CustomError, IUser } from "../models/models";
@@ -23,19 +23,21 @@ const AuthPage: React.FC = () => {
     reset,
   } = methods;
 
-  const navigate = useNavigate();
+  const navigate: NavigateFunction = useNavigate();
+  let name: string = "";
 
-  const onSubmit: SubmitHandler<IUser> = async (form: IUser) => {
+  const onSubmit: SubmitHandler<IUser> = async (form) => {
     await fetchData(form);
+    name = form.username;
     reset();
+    navigate(`/contacts/${name}`);
   };
 
-  useEffect(() => {
-    if (data) {
-      // navigate(`/contacts/${data}`);
-      console.log(data);
-    }
-  }, [data, navigate]);
+  // useEffect(() => {
+  //   if (data) {
+  //     localStorage.setItem("token", data);
+  //   }
+  // }, [data]);
 
   return (
     <main className="flex justify-center items-center mx-auto h-screen text-md bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400">

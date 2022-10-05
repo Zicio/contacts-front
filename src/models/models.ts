@@ -12,3 +12,10 @@ export interface CustomError {
   data: string;
   status: number;
 }
+
+export interface IContact {
+  name: string;
+  surname: string;
+  tel: string;
+  city: string;
+}

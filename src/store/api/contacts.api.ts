@@ -18,6 +18,7 @@ export const contactsApi = createApi({
       query: (user) => ({
         url: "authorization",
         method: "POST",
+        credentials: "include",
         body: user,
       }),
     }),
@@ -28,11 +29,11 @@ export const contactsApi = createApi({
     //     body: user,
     //   }),
     // }),
-    getContacts: build.query<IContact[], string | undefined>({
-      query: (token) => ({
+    getContacts: build.query<IContact[], void>({
+      query: () => ({
         url: "contacts",
         method: "GET",
-        headers: { authorization: token ? token : "" },
+        credentials: "include",
       }),
     }),
   }),

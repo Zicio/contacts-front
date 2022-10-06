@@ -30,14 +30,15 @@ const AuthPage: React.FC = () => {
     await fetchData(form);
     name = form.username;
     reset();
-    navigate(`/contacts/${name}`);
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     localStorage.setItem("token", data);
-  //   }
-  // }, [data]);
+  useEffect(() => {
+    if (data) {
+      console.log("yes");
+      navigate(`/contacts/${name}`);
+      // localStorage.setItem("token", data);
+    }
+  }, [data, navigate]);
 
   return (
     <main className="flex justify-center items-center mx-auto h-screen text-md bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400">

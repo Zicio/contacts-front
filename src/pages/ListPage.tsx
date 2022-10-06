@@ -5,7 +5,7 @@ const ListPage: React.FC = () => {
   const { user } = useParams();
   // let token: string = localStorage.getItem("token") || "";
   // console.log(token);
-  // const { data, isError, error, isLoading } = useGetContactsQuery(token);
+  const { data, isError, error, isLoading } = useGetContactsQuery();
   return (
     <>
       <article>

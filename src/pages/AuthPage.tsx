@@ -24,19 +24,16 @@ const AuthPage: React.FC = () => {
   } = methods;
 
   const navigate: NavigateFunction = useNavigate();
-  let name: string = "";
 
   const onSubmit: SubmitHandler<IUser> = async (form) => {
     await fetchData(form);
-    name = form.username;
     reset();
   };
 
   useEffect(() => {
     if (data) {
-      console.log("yes");
-      navigate(`/contacts/${name}`);
-      // localStorage.setItem("token", data);
+      navigate(`/contacts/${data}`);
+      return;
     }
   }, [data, navigate]);
 

@@ -14,7 +14,7 @@ export const contactsApi = createApi({
   }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
   refetchOnReconnect: true,
   endpoints: (build) => ({
-    authorization: build.query<StatusCode, IUser>({
+    authorization: build.query<string, IUser>({
       query: (user) => ({
         url: "authorization",
         method: "POST",

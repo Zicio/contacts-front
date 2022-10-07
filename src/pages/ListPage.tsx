@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { useGetContactsQuery } from "../store/api/contacts.api";
 
 const ListPage: React.FC = () => {
+  console.log("yes");
   const { user } = useParams();
   // let token: string = localStorage.getItem("token") || "";
   // console.log(token);
@@ -9,7 +10,7 @@ const ListPage: React.FC = () => {
   return (
     <>
       <article>
-        <span>user</span>
+        <span>{user}</span>
         <button>
           <img src="" alt="" />
         </button>

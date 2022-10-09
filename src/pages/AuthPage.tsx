@@ -3,7 +3,10 @@ import { NavigateFunction, useNavigate } from "react-router-dom";
 import { DevTool } from "@hookform/devtools";
 import Loader from "../components/Loader";
 import { CustomError, IUser } from "../models/models";
-import { useLazyAuthorizationQuery } from "../store/api/contacts.api";
+import {
+  useGetContactsQuery,
+  useLazyAuthorizationQuery,
+} from "../store/api/contacts.api";
 import Notification from "../components/Notification";
 import Input from "../components/Input";
 import ErrorWindow from "../components/ErrorWindow";
@@ -12,6 +15,11 @@ import { useEffect } from "react";
 const AuthPage: React.FC = () => {
   const [fetchData, { data, isLoading, isError, error }] =
     useLazyAuthorizationQuery();
+  const {
+    error: accessError,
+    isError: isAcessError,
+    isSuccess: isAcessSuccess,
+  } = useGetContactsQuery();
 
   const methods = useForm<IUser>({
     mode: "onChange",
@@ -33,7 +41,6 @@ const AuthPage: React.FC = () => {
   useEffect(() => {
     if (data) {
       navigate(`/contacts/${data}`);
-      return;
     }
   }, [data, navigate]);
 
@@ -70,6 +77,11 @@ const AuthPage: React.FC = () => {
             {isError && (error as CustomError).status === 401 && (
               <Notification message={(error as CustomError).data} />
             )}
+            {isAcessSuccess &&
+              isAcessError &&
+              (accessError as CustomError).status === 403 && (
+                <Notification message={(accessError as CustomError).data} />
+              )}
           </form>
           <DevTool control={control} />
         </FormProvider>

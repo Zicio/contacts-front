@@ -5,7 +5,6 @@ import {
   FetchArgs,
   fetchBaseQuery,
 } from "@reduxjs/toolkit/query/react";
-import StatusCode from "status-code-enum";
 
 export const contactsApi = createApi({
   reducerPath: "contacts/api",
@@ -14,7 +13,7 @@ export const contactsApi = createApi({
   }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
   refetchOnReconnect: true,
   endpoints: (build) => ({
-    authorization: build.query<string, IUser>({
+    authorization: build.mutation<string, IUser>({
       query: (user) => ({
         url: "authorization",
         method: "POST",
@@ -22,13 +21,6 @@ export const contactsApi = createApi({
         body: user,
       }),
     }),
-    // authorization: build.query<string, IUser>({
-    //   query: (user) => ({
-    //     url: "authorization",
-    //     method: "POST",
-    //     body: user,
-    //   }),
-    // }),
     getContacts: build.query<IContact[], void>({
       query: () => ({
         url: "contacts",
@@ -36,7 +28,18 @@ export const contactsApi = createApi({
         credentials: "include",
       }),
     }),
+    logout: build.mutation<string, void>({
+      query: () => ({
+        url: "logout",
+        method: "DELETE",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
-export const { useLazyAuthorizationQuery, useGetContactsQuery } = contactsApi;
+export const {
+  useAuthorizationMutation,
+  useGetContactsQuery,
+  useLogoutMutation,
+} = contactsApi;

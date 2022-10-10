@@ -5,7 +5,7 @@ import Loader from "../components/Loader";
 import { CustomError, IUser } from "../models/models";
 import {
   contactsApi,
-  useLazyAuthorizationQuery,
+  useAuthorizationMutation,
 } from "../store/api/contacts.api";
 import Notification from "../components/Notification";
 import Input from "../components/Input";
@@ -14,7 +14,7 @@ import { useEffect } from "react";
 
 const AuthPage: React.FC = () => {
   const [fetchData, { data, isLoading, isError, error }] =
-    useLazyAuthorizationQuery();
+    useAuthorizationMutation();
   const {
     error: accessError,
     isError: isAcessError,

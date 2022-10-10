@@ -14,6 +14,7 @@ export interface CustomError {
 }
 
 export interface IContact {
+  id: string;
   name: string;
   surname: string;
   tel: string;

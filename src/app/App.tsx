@@ -4,18 +4,20 @@ import AuthPage from "../pages/AuthPage";
 
 function App() {
   return (
-    <Routes>
-      <Route
-        path="/contacts"
-        element={
-          <>
-            <Navigate to={"/contacts/auth"} replace />
-          </>
-        }
-      />
-      <Route path="/contacts/auth" element={<AuthPage />} />
-      <Route path="/contacts/:user" element={<ListPage />} />
-    </Routes>
+    <div className="bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400 h-screen">
+      <Routes>
+        <Route
+          path="/contacts"
+          element={
+            <>
+              <Navigate to={"/contacts/auth"} replace />
+            </>
+          }
+        />
+        <Route path="/contacts/auth" element={<AuthPage />} />
+        <Route path="/contacts/:user" element={<ListPage />} />
+      </Routes>
+    </div>
   );
 }
 

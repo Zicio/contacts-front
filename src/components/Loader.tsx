@@ -1,6 +1,7 @@
-const Loader: React.FC = () => {
+const Loader: React.FC<{ border: boolean }> = (props) => {
+  const { border } = props;
   return (
-    <div className="mx-auto w-fit">
+    <div className={"mx-auto w-fit " + (border ? "box" : "")}>
       <svg
         aria-hidden="true"
         className={"loader-svg loader-svg-small"}

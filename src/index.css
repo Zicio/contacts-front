@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .input {
-  @apply block rounded-md p-[5px];
+  @apply block rounded-md p-[5px] bg-gray-900 border-2 border-fuchsia-600 text-white font-medium;
 }
 
 .button {
-  @apply rounded-md p-[5px] text-white hover:shadow-lg hover:shadow-fuchsia-600 text-xl;
+  @apply rounded-md p-[5px] text-white hover:shadow-lg hover:shadow-fuchsia-600 text-xl font-bold border border-black;
 }
 
 .loader-svg {
@@ -16,4 +16,8 @@
 
 .loader-svg-small {
   @apply w-[30px] h-[30px];
+}
+
+.box {
+  @apply border border-black rounded-md shadow-lg shadow-black p-[15px] bg-gray-800;
 }

@@ -4,7 +4,7 @@ import { DevTool } from "@hookform/devtools";
 import Loader from "../components/Loader";
 import { CustomError, IUser } from "../models/models";
 import {
-  useGetContactsQuery,
+  contactsApi,
   useLazyAuthorizationQuery,
 } from "../store/api/contacts.api";
 import Notification from "../components/Notification";
@@ -19,7 +19,7 @@ const AuthPage: React.FC = () => {
     error: accessError,
     isError: isAcessError,
     isSuccess: isAcessSuccess,
-  } = useGetContactsQuery();
+  } = contactsApi.endpoints.getContacts.useQueryState();
 
   const methods = useForm<IUser>({
     mode: "onChange",
@@ -45,16 +45,16 @@ const AuthPage: React.FC = () => {
   }, [data, navigate]);
 
   return (
-    <main className="flex justify-center items-center mx-auto h-screen text-md bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400">
+    <main className="flex justify-center items-center mx-auto h-screen text-md">
       {isError && (error as CustomError).status !== 401 ? (
         <ErrorWindow />
       ) : (
         <FormProvider {...methods}>
           <form
-            className="border border-black rounded-md shadow-lg shadow-black p-[15px] mt-[40px] min-w-[300px] bg-gray-800"
+            className="box mt-[40px] min-w-[300px]"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h1 className="font-bold text-xl text-center text-fuchsia-600">
+            <h1 className="font-bold text-3xl text-center text-fuchsia-600">
               Вход
             </h1>
             <Input name="username" type="text" active={isLoading} />
@@ -62,7 +62,7 @@ const AuthPage: React.FC = () => {
             <Input name="password" type="password" active={isLoading} />
             <Notification message={errors.password?.message} />
             {isLoading ? (
-              <Loader />
+              <Loader border={false} />
             ) : (
               <button
                 className={`button ${

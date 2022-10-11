@@ -4,7 +4,7 @@ import AuthPage from "../pages/AuthPage";
 
 function App() {
   return (
-    <div className="bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400 h-screen">
+    <div className="bg-gradient-to-tr from-black via-fuchsia-700 to-sky-400 h-full">
       <Routes>
         <Route
           path="/contacts"

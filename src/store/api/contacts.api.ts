@@ -12,6 +12,7 @@ export const contactsApi = createApi({
     baseUrl: "http://localhost:7777/",
   }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
   refetchOnReconnect: true,
+  tagTypes: ["Contacts"],
   endpoints: (build) => ({
     authorization: build.mutation<string, IUser>({
       query: (user) => ({
@@ -20,6 +21,7 @@ export const contactsApi = createApi({
         credentials: "include",
         body: user,
       }),
+      invalidatesTags: ["Contacts"],
     }),
     getContacts: build.query<IContact[], void>({
       query: () => ({
@@ -27,6 +29,7 @@ export const contactsApi = createApi({
         method: "GET",
         credentials: "include",
       }),
+      providesTags: (result) => ["Contacts"],
     }),
     logout: build.mutation<string, void>({
       query: () => ({

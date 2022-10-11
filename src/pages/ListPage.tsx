@@ -11,10 +11,8 @@ import {
 
 const ListPage: React.FC = () => {
   const { user } = useParams();
-  const [
-    logout,
-    { data: logoutData, isError: isLogoutError, isLoading: isLogoutLoading },
-  ] = useLogoutMutation();
+  const [logout, { data: logoutData, isLoading: isLogoutLoading }] =
+    useLogoutMutation();
   const { data, isError, error, isLoading } = useGetContactsQuery();
   const navigate: NavigateFunction = useNavigate();
 
@@ -36,7 +34,7 @@ const ListPage: React.FC = () => {
       }
       return;
     },
-    []
+    [get_cookie]
   );
 
   const handleLogout: React.MouseEventHandler<HTMLButtonElement> = async (
@@ -54,10 +52,11 @@ const ListPage: React.FC = () => {
   }, [delete_cookie, logoutData, navigate]);
 
   useEffect(() => {
-    if (error && (error as CustomError).status === 403) {
+    if (isError && (error as CustomError).status === 403) {
+      console.log("this");
       navigate("/contacts");
     }
-  }, [error, navigate]);
+  }, [error, isError, navigate]);
 
   if (isLoading) {
     return (
@@ -66,29 +65,42 @@ const ListPage: React.FC = () => {
       </div>
     );
   }
-  if (data) {
-    return (
-      <>
-        <article>
-          <span>{user}</span>
-          <button
-            className="button bg-red-500"
-            type="submit"
-            onClick={handleLogout}
-          >
-            Выйти
-          </button>
-        </article>
-        <div className="flex justify-center items-center mx-auto h-screen">
-          {isError && <ErrorWindow />}
-          {data &&
-            data.map((contact: IContact) => (
-              <Contact key={contact.id} data={contact} />
-            ))}
-        </div>
-      </>
-    );
-  }
-  return <></>;
+  return (
+    <div className="flex flex-col justify-center p-[20px]">
+      <article className="box w-fit mr-[0px] self-end grid grid-flow-col gap-[20px] items-center font-bold text-xl">
+        <span className="text-yellow-400 italic">{user}</span>
+        <button
+          className="button bg-fuchsia-600"
+          type="submit"
+          onClick={handleLogout}
+        >
+          {isLogoutLoading ? <Loader border={false} /> : "Выйти"}
+        </button>
+      </article>
+      <main className="flex justify-center items-center mx-auto h-screen">
+        {isError && (error as CustomError).status !== 403 && <ErrorWindow />}
+        {data && (
+          <div className="box">
+            <table className="table-fixed border-collapse">
+              <caption className="text-3xl text-fuchsia-600">Контакты</caption>
+              <thead>
+                <tr className="text-yellow-400 italic bg-gray-900">
+                  <th className="w-1/5 table-cell">Имя</th>
+                  <th className="w-1/5 table-cell">Фамилия</th>
+                  <th className="w-1/5 table-cell">Город</th>
+                  <th className="w-3/5 table-cell">Телефон</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((contact: IContact) => (
+                  <Contact key={contact.id} data={contact} />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </main>
+    </div>
+  );
 };
 export default ListPage;

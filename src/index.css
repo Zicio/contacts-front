@@ -19,5 +19,9 @@
 }
 
 .box {
-  @apply border border-black rounded-md shadow-lg shadow-black p-[15px] bg-gray-800;
+  @apply border border-black rounded-md shadow-lg shadow-black p-[15px] bg-gray-800 text-white;
+}
+
+.table-cell {
+  @apply border border-slate-500 p-[20px];
 }

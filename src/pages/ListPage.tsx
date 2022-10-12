@@ -70,7 +70,7 @@ const ListPage: React.FC = () => {
       <article className="box w-fit mr-[0px] self-end grid grid-flow-col gap-[20px] items-center font-bold text-xl">
         <span className="text-yellow-400 italic">{user}</span>
         <button
-          className="button bg-fuchsia-600"
+          className="button button-fuchsia"
           type="submit"
           onClick={handleLogout}
         >
@@ -80,24 +80,13 @@ const ListPage: React.FC = () => {
       <main className="flex justify-center items-center mx-auto h-screen">
         {isError && (error as CustomError).status !== 403 && <ErrorWindow />}
         {data && (
-          <div className="box">
-            <table className="table-fixed border-collapse">
-              <caption className="text-3xl text-fuchsia-600">Контакты</caption>
-              <thead>
-                <tr className="text-yellow-400 italic bg-gray-900">
-                  <th className="w-1/5 table-cell">Имя</th>
-                  <th className="w-1/5 table-cell">Фамилия</th>
-                  <th className="w-1/5 table-cell">Город</th>
-                  <th className="w-3/5 table-cell">Телефон</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.map((contact: IContact) => (
-                  <Contact key={contact.id} data={contact} />
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ul
+            className={`grid grid-rows-[${data.length}] gap-[20px] min-w-[500px]`}
+          >
+            {data.map((contact: IContact) => (
+              <Contact key={contact.id} data={contact} />
+            ))}
+          </ul>
         )}
       </main>
     </div>

@@ -67,7 +67,7 @@ const AuthPage: React.FC = () => {
               <button
                 className={`button ${
                   !isValid && "opacity-50 hover:shadow-none"
-                } mt-[20px] block mx-auto mb-[20px] bg-fuchsia-600`}
+                } mt-[20px] block mx-auto mb-[20px] button-fuchsia`}
                 type="submit"
                 disabled={!isValid}
               >

@@ -7,7 +7,19 @@
 }
 
 .button {
-  @apply rounded-md p-[5px] text-white hover:shadow-lg hover:shadow-fuchsia-600 text-xl font-bold border border-black;
+  @apply rounded-md p-[5px] text-white hover:shadow-lg  text-base font-bold border border-black;
+}
+
+.button-fuchsia {
+  @apply bg-fuchsia-600 hover:shadow-fuchsia-600;
+}
+
+.button-yellow {
+  @apply bg-yellow-600 hover:shadow-yellow-600;
+}
+
+.button-red {
+  @apply bg-red-600 hover:shadow-red-600;
 }
 
 .loader-svg {
@@ -20,8 +32,4 @@
 
 .box {
   @apply border border-black rounded-md shadow-lg shadow-black p-[15px] bg-gray-800 text-white;
-}
-
-.table-cell {
-  @apply border border-slate-500 p-[20px];
 }

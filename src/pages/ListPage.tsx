@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import Contact from "../components/Contact";
 import ErrorWindow from "../components/ErrorWindow";
@@ -16,27 +16,6 @@ const ListPage: React.FC = () => {
   const { data, isError, error, isLoading } = useGetContactsQuery();
   const navigate: NavigateFunction = useNavigate();
 
-  const get_cookie = useCallback((name: string) => {
-    return document.cookie.split(";").some((c) => {
-      return c.trim().startsWith(name + "=");
-    });
-  }, []);
-
-  const delete_cookie = useCallback(
-    (name: string, path: string, domain: string) => {
-      if (get_cookie(name)) {
-        document.cookie =
-          name +
-          "=" +
-          (path ? ";path=" + path : "") +
-          (domain ? ";domain=" + domain : "") +
-          ";expires=Thu, 01 Jan 1970 00:00:01 GMT";
-      }
-      return;
-    },
-    [get_cookie]
-  );
-
   const handleLogout: React.MouseEventHandler<HTMLButtonElement> = async (
     e
   ) => {
@@ -45,18 +24,10 @@ const ListPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (logoutData) {
-      delete_cookie("token", "/", "localhost");
+    if (logoutData || (isError && (error as CustomError).status === 403)) {
       navigate("/contacts");
     }
-  }, [delete_cookie, logoutData, navigate]);
-
-  useEffect(() => {
-    if (isError && (error as CustomError).status === 403) {
-      console.log("this");
-      navigate("/contacts");
-    }
-  }, [error, isError, navigate]);
+  }, [error, isError, logoutData, navigate]);
 
   if (isLoading) {
     return (

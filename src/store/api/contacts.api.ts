@@ -38,6 +38,15 @@ export const contactsApi = createApi({
         credentials: "include",
       }),
     }),
+    deleteContact: build.mutation<string, string>({
+      query: (id) => ({
+        url: "contact",
+        method: "DELETE",
+        credentials: "include",
+        body: { id: "2" },
+      }),
+      invalidatesTags: ["Contacts"],
+    }),
   }),
 });
 
@@ -45,4 +54,5 @@ export const {
   useAuthorizationMutation,
   useGetContactsQuery,
   useLogoutMutation,
+  useDeleteContactMutation,
 } = contactsApi;

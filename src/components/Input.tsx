@@ -8,6 +8,7 @@ const Input: React.FC<{ name: string; type: string; active: boolean }> = (
   const { register }: UseFormReturn<FieldValues> = useFormContext();
   const minLength: number = 4;
   const maxLength: number = 10;
+  const reg: RegExp = name === "password" ? /[A-Za-z0-9]/g : /[A-Za-z]/g;
 
   return (
     <input
@@ -18,7 +19,7 @@ const Input: React.FC<{ name: string; type: string; active: boolean }> = (
       {...register(name, {
         required: "Поле обязательно к заполнению!",
         pattern: {
-          value: /[A-Za-z0-9]/g,
+          value: reg,
           message: "Только латинские буквы",
         },
         minLength: {

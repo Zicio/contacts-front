@@ -65,7 +65,7 @@ const AuthPage: React.FC = () => {
               <Loader border={false} />
             ) : (
               <button
-                className={`button ${
+                className={`button text-xl ${
                   !isValid && "opacity-50 hover:shadow-none"
                 } mt-[20px] block mx-auto mb-[20px] button-fuchsia`}
                 type="submit"

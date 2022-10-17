@@ -1,6 +1,8 @@
+import { UseFormReturn } from "react-hook-form";
+import { SubmitHandler } from "react-hook-form";
 export interface IUser {
-  username: string;
-  password: string;
+  username?: string;
+  password?: string;
 }
 
 export enum Warning {
@@ -14,9 +16,16 @@ export interface CustomError {
 }
 
 export interface IContact {
-  id: string;
+  id?: string;
   name: string;
   surname: string;
   tel: string;
   city: string;
 }
+
+// export interface IForm {
+//   name: string,
+//   onSubmit: SubmitHandler<IUser>,
+//   methods: UseFormReturn,
+//   inputs: []
+// }

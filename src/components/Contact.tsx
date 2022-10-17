@@ -10,7 +10,9 @@ const Contact: React.FC<{ data: IContact }> = (props) => {
 
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await deleteContact(contactData.id);
+    if (contactData.id) {
+      await deleteContact(contactData.id);
+    }
   };
 
   return (

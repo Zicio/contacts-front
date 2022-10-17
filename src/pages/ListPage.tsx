@@ -38,14 +38,19 @@ const ListPage: React.FC = () => {
   }
   return (
     <div className="flex flex-col justify-center p-[20px]">
-      <article className="box w-fit mr-[0px] self-end grid grid-flow-col gap-[20px] items-center font-bold text-xl">
-        <span className="text-yellow-400 italic">{user}</span>
+      <article className="box w-fit mr-[0px] self-end grid grid-cols-2 gap-[10px] items-center font-bold text-xl">
+        <span className="text-yellow-400 text-3xl text-center italic col-start-1 col-end-2 row-start-1 row-end-2">
+          {user}
+        </span>
         <button
-          className="button button-fuchsia"
+          className="button button-fuchsia col-start-2 col-end-3 row-start-1 row-end-2 text-base"
           type="submit"
           onClick={handleLogout}
         >
           {isLogoutLoading ? <Loader border={false} /> : "Выйти"}
+        </button>
+        <button className="button button-fuchsia col-start-1 col-end-3 row-start-2 row-end-3 text-base">
+          Создать новый контакт
         </button>
       </article>
       <main className="flex justify-center items-center mx-auto h-screen">

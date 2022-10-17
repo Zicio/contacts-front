@@ -32,14 +32,14 @@ const Contact: React.FC<{ data: IContact }> = (props) => {
         <span>{contactData.tel}</span>
       </div>
       <div className="col-start-2 col-end-3 row-start-3 row-end-4 grid grid-cols-2 auto-cols-auto gap-[5px]">
-        <button className="button button-yellow" type="submit">
+        <button className="button button-yellow p-[5px]" type="submit">
           Изменить
         </button>
         {isLoading ? (
           <Loader border={false} />
         ) : (
           <button
-            className="button button-red"
+            className="button button-red p-[5px]"
             type="submit"
             onClick={handleDelete}
           >

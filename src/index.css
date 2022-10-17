@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .input {
-  @apply block rounded-md p-[5px] bg-gray-900 border-2 border-fuchsia-600 text-white font-medium;
+  @apply block rounded-md p-[5px] bg-gray-900 border-2 border-fuchsia-600 text-white font-medium text-base;
 }
 
 .button {
-  @apply rounded-md p-[5px] text-white hover:shadow-lg  text-base font-bold border border-black;
+  @apply rounded-md p-[5px] text-white hover:shadow-lg font-bold border border-black;
 }
 
 .button-fuchsia {

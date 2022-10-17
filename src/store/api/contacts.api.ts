@@ -43,7 +43,7 @@ export const contactsApi = createApi({
         url: "contact",
         method: "DELETE",
         credentials: "include",
-        body: { id: "2" },
+        body: { id: id },
       }),
       invalidatesTags: ["Contacts"],
     }),

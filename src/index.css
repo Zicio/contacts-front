@@ -7,7 +7,7 @@
 }
 
 .button {
-  @apply rounded-md p-[5px] text-white hover:shadow-lg font-bold border border-black;
+  @apply rounded-md p-[5px] cursor-pointer text-white hover:shadow-lg font-bold border border-black;
 }
 
 .button-fuchsia {

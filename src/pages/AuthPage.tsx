@@ -10,7 +10,7 @@ import Notification from "../components/Notification";
 import Input from "../components/Input";
 import ErrorWindow from "../components/ErrorWindow";
 import { useEffect } from "react";
-import ContactForm from "../components/ContactForm";
+import Form from "../components/Form";
 
 const AuthPage: React.FC = () => {
   const [fetchData, { data, isLoading, isError, error }] =
@@ -26,8 +26,6 @@ const AuthPage: React.FC = () => {
   });
   const {
     formState: { errors, isValid },
-    control,
-    handleSubmit,
     reset,
   } = methods;
 
@@ -49,10 +47,7 @@ const AuthPage: React.FC = () => {
       {isError && (error as CustomError).status !== 401 ? (
         <ErrorWindow />
       ) : (
-        <ContactForm onSubmit={onSubmit} methods={methods}>
-          <h1 className="font-bold text-3xl text-center text-fuchsia-600">
-            Вход
-          </h1>
+        <Form onSubmit={onSubmit} methods={methods} title="Вход">
           <Input name="username" type="text" active={isLoading} />
           <Notification message={errors.username?.message} />
           <Input name="password" type="password" active={isLoading} />
@@ -78,41 +73,7 @@ const AuthPage: React.FC = () => {
             (accessError as CustomError).status === 403 && (
               <Notification message={(accessError as CustomError).data} />
             )}
-        </ContactForm>
-
-        // {/* <FormProvider {...methods}>
-        //   <form
-        //     className="box mt-[40px] min-w-[300px]"
-        //     onSubmit={handleSubmit(onSubmit)}
-        //   >
-        //     <Input name="username" type="text" active={isLoading} />
-        //     <Notification message={errors.username?.message} />
-        //     <Input name="password" type="password" active={isLoading} />
-        //     <Notification message={errors.password?.message} />
-        //     {isLoading ? (
-        //       <Loader border={false} />
-        //     ) : (
-        //       <button
-        //         className={`button text-xl ${
-        //           !isValid && "opacity-50 hover:shadow-none"
-        //         } mt-[20px] block mx-auto mb-[20px] button-fuchsia`}
-        //         type="submit"
-        //         disabled={!isValid}
-        //       >
-        //         Войти
-        //       </button>
-        //     )}
-        //     {isError && (error as CustomError).status === 401 && (
-        //       <Notification message={(error as CustomError).data} />
-        //     )}
-        //     {isAcessSuccess &&
-        //       isAcessError &&
-        //       (accessError as CustomError).status === 403 && (
-        //         <Notification message={(accessError as CustomError).data} />
-        //       )}
-        //   </form>
-        //   <DevTool control={control} />
-        // </FormProvider> */}
+        </Form>
       )}
     </main>
   );

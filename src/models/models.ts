@@ -24,3 +24,9 @@ export interface IContact {
   tel?: string;
   city?: string;
 }
+
+export interface IValidationRules {
+  regExp: RegExp;
+  maxLength: number;
+  minLength: number;
+}

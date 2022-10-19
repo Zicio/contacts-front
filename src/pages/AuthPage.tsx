@@ -51,7 +51,9 @@ const AuthPage: React.FC = () => {
           <Input name="username" type="text" active={isLoading} />
           <Notification message={errors.username?.message} />
           <Input name="password" type="password" active={isLoading} />
-          <small>Только латинские буквы и цифры</small>
+          <small className="text-gray-400">
+            Только латинские буквы и цифры
+          </small>
           <Notification message={errors.password?.message} />
           {isLoading ? (
             <Loader border={false} />

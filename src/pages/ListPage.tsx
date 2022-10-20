@@ -72,14 +72,12 @@ const ListPage: React.FC = () => {
           <button
             className="button button-fuchsia col-start-2 col-end-3 row-start-1 row-end-2 text-base"
             type="submit"
-            disabled={popupForm as boolean | undefined}
             onClick={handleLogout}
           >
             {isLogoutLoading ? <Loader border={false} /> : "Выйти"}
           </button>
           <button
             className="button button-fuchsia col-start-1 col-end-3 row-start-2 row-end-3 text-base"
-            disabled={popupForm as boolean | undefined}
             onClick={handleShowForm}
           >
             Создать новый контакт

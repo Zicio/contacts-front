@@ -15,7 +15,7 @@ const Form: React.FC<{
   return (
     <FormProvider {...methods}>
       <form
-        className="box mt-[40px] min-w-[300px] max-w-[400px]"
+        className="box min-w-[300px] max-w-[400px]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <h1 className="font-bold text-3xl text-center text-fuchsia-600">

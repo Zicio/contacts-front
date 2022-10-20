@@ -24,8 +24,8 @@ const PopupForm: React.FC<{ handleSubmit: SubmitHandler<IContact> }> = (
   } = methods;
 
   return (
-    <div className="absolute w-full h-full bg-black bg-opacity-50">
-      <article className="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%]">
+    <div className="fixed flex justify-center items-center w-full h-screen top-0 left-0 bg-black bg-opacity-50">
+      <article className="w-fit">
         <Form
           onSubmit={handleSubmit}
           methods={methods}

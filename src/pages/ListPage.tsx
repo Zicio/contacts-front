@@ -65,7 +65,7 @@ const ListPage: React.FC = () => {
     <>
       {popupForm && <PopupForm handleSubmit={handleNewContact} />}
       <div className="flex flex-col justify-center p-[20px]">
-        <article className="box w-fit mr-[0px] self-end grid grid-cols-2 gap-[10px] items-center font-bold text-xl">
+        <article className="box box-border min-w-[200px] w-fit mr-0 self-end grid grid-cols-2 gap-[10px] items-center font-bold text-xl">
           <span className="text-yellow-400 text-3xl text-center italic col-start-1 col-end-2 row-start-1 row-end-2">
             {user}
           </span>
@@ -83,11 +83,11 @@ const ListPage: React.FC = () => {
             Создать новый контакт
           </button>
         </article>
-        <main className="flex justify-center items-center mx-auto h-screen">
+        <main className="flex justify-center items-start mx-auto mt-[60px] h-screen box-border min-w-[350px] w-[50%] max-w-[500px]">
           {isError && (error as CustomError).status !== 403 && <ErrorWindow />}
           {data && (
             <ul
-              className={`grid grid-rows-[${data.length}] gap-[20px] min-w-[500px]`}
+              className={`grid grid-rows-[${data.length}] gap-[20px] box-border w-full`}
             >
               {data.map((contact: IContact) => (
                 <Contact key={contact.id} data={contact} />

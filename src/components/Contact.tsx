@@ -16,7 +16,7 @@ const Contact: React.FC<{ data: IContact }> = (props) => {
   };
 
   return (
-    <li className="box grid grid-cols-[35%_55%] gap-x-[20px] gap-y-[10px] justify-between font-semibold">
+    <li className="box grid grid-cols-[35%_55%] gap-y-[10px] justify-between font-semibold text-base">
       <div className="col-start-1 col-end-2 row-start-1 row-end-2">
         <span className="text-yellow-400">Name: </span>
         <span>{contactData.name}</span>

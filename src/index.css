@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  width: 100%;
+  height: 100%;
+}
+
 .input {
   @apply block rounded-md p-[5px] bg-gray-900 border-2 border-fuchsia-600 text-white font-medium text-base;
 }

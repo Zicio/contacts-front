@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SubmitHandler } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import Contact from "../components/Contact";
 import ErrorWindow from "../components/ErrorWindow";
@@ -11,6 +11,9 @@ import {
   useLogoutMutation,
 } from "../store/api/contacts.api";
 import PopupForm from "../components/PopupForm";
+import Form from "../components/Form";
+import Input from "../components/Input";
+import Notification from "../components/Notification";
 
 const ListPage: React.FC = () => {
   const { user } = useParams();
@@ -22,6 +25,7 @@ const ListPage: React.FC = () => {
     createContact,
     { data: createData, isLoading: isCreateLoading, isError: isCreateError },
   ] = useCreateNewContactMutation();
+
   const [popupForm, setPopupForm] = useState<Boolean>(false);
 
   const navigate: NavigateFunction = useNavigate();
@@ -47,12 +51,27 @@ const ListPage: React.FC = () => {
     setPopupForm(false);
   };
 
+  const handleCancellation: React.MouseEventHandler<HTMLButtonElement> = (
+    e
+  ) => {
+    e.preventDefault();
+    setPopupForm(false);
+  };
+
   //Навигация на страницу входа при успешном выходе из профиля
   useEffect(() => {
     if (logoutData || (isError && (error as CustomError).status === 403)) {
       navigate("/contacts");
     }
   }, [error, isError, logoutData, navigate]);
+
+  const methods = useForm<IContact>({
+    mode: "onChange",
+  });
+  const {
+    formState: { errors, isValid },
+    reset,
+  } = methods;
 
   if (isLoading) {
     return (
@@ -63,7 +82,47 @@ const ListPage: React.FC = () => {
   }
   return (
     <>
-      {popupForm && <PopupForm handleSubmit={handleNewContact} />}
+      {popupForm && (
+        <PopupForm>
+          <Form
+            onSubmit={handleNewContact}
+            methods={methods}
+            title="Создать новый контакт"
+          >
+            <Input name="name" type="text" active={isCreateLoading} />
+            <Notification message={errors.name?.message} />
+            <Input name="surname" type="text" active={isCreateLoading} />
+            <Notification message={errors.surname?.message} />
+            <Input name="city" type="text" active={isCreateLoading} />
+            <Notification message={errors.city?.message} />
+            <Input name="tel" type="tel" active={isCreateLoading} />
+            <small>Формат +79********</small>
+            <Notification message={errors.tel?.message} />
+            <div className="flex justify-end">
+              {isCreateLoading ? (
+                <Loader border={false} />
+              ) : (
+                <button
+                  className={`button text-xl ${
+                    !isValid && "opacity-50 hover:shadow-none"
+                  } mt-[20px] block mx-auto mb-[20px] button-fuchsia`}
+                  type="submit"
+                  disabled={!isValid}
+                >
+                  Создать
+                </button>
+              )}
+              <button
+                className="button button-red text-xl ml-[10px]"
+                type="button"
+                onClick={handleCancellation}
+              >
+                Отмена
+              </button>
+            </div>
+          </Form>
+        </PopupForm>
+      )}
       <div className="flex flex-col justify-center p-[20px]">
         <article className="box box-border min-w-[200px] w-fit mr-0 self-end grid grid-cols-2 gap-[10px] items-center font-bold text-xl">
           <span className="text-yellow-400 text-3xl text-center italic col-start-1 col-end-2 row-start-1 row-end-2">

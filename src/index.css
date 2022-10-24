@@ -27,6 +27,10 @@ html {
   @apply bg-red-600 hover:shadow-red-600;
 }
 
+.button-unactive {
+  @apply opacity-50 hover:shadow-none cursor-default;
+}
+
 .loader-svg {
   @apply text-blue-200 animate-spin fill-fuchsia-600;
 }

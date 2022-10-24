@@ -30,3 +30,7 @@ export interface IValidationRules {
   maxLength: number;
   minLength: number;
 }
+
+export interface IPopupState {
+  active: boolean;
+}

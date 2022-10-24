@@ -7,6 +7,7 @@ import Loader from "../components/Loader";
 import { CustomError, IContact } from "../models/models";
 import {
   useCreateNewContactMutation,
+  useEditContactMutation,
   useGetContactsQuery,
   useLogoutMutation,
 } from "../store/api/contacts.api";
@@ -22,8 +23,10 @@ const ListPage: React.FC = () => {
   const { user } = useParams();
 
   const { data, isError, error, isLoading } = useGetContactsQuery();
+
   const [logout, { data: logoutData, isLoading: isLogoutLoading }] =
     useLogoutMutation();
+
   const [
     createContact,
     {
@@ -34,8 +37,13 @@ const ListPage: React.FC = () => {
     },
   ] = useCreateNewContactMutation();
 
-  const statePopup: boolean = useSelector(
-    (state: RootState) => state.popup.active
+  const [
+    edit,
+    { data: editData, isLoading: isEditLoading, isError: isEditError },
+  ] = useEditContactMutation();
+
+  const { active: statePopup, data: dataPopup } = useSelector(
+    (state: RootState) => state.popup
   );
   const dispatch = useDispatch();
 
@@ -57,15 +65,12 @@ const ListPage: React.FC = () => {
 
   //Обработчик отправки нового контакта
   const handleNewContact: SubmitHandler<IContact> = async (form) => {
-    try {
-      await createContact(form);
-      reset();
-      dispatch(deactivate());
-    } catch (e) {
-      console.log((e as Error).message);
-    }
+    await createContact(form);
+    reset();
+    dispatch(deactivate());
   };
 
+  //Обработчик кнопки "Отмена" в модальном окне
   const handleCancellation: React.MouseEventHandler<HTMLButtonElement> = (
     e
   ) => {
@@ -88,10 +93,6 @@ const ListPage: React.FC = () => {
     reset,
   } = methods;
 
-  if (isError && (error as CustomError).status !== 403) {
-    return <ErrorWindow />;
-  }
-
   if (isLoading) {
     return (
       <div className="flex justify-center items-center mx-auto h-screen">
@@ -108,27 +109,38 @@ const ListPage: React.FC = () => {
             methods={methods}
             title="Создать новый контакт"
           >
-            <Input name="name" type="text" active={isCreateLoading} />
+            <Input
+              name="name"
+              type="text"
+              active={isCreateLoading}
+              data={dataPopup?.name}
+            />
             <Notification message={errors.name?.message} />
-            <Input name="surname" type="text" active={isCreateLoading} />
+            <Input
+              name="surname"
+              type="text"
+              active={isCreateLoading}
+              data={dataPopup?.surname}
+            />
             <Notification message={errors.surname?.message} />
-            <Input name="city" type="text" active={isCreateLoading} />
+            <Input
+              name="city"
+              type="text"
+              active={isCreateLoading}
+              data={dataPopup?.city}
+            />
             <Notification message={errors.city?.message} />
-            <Input name="tel" type="tel" active={isCreateLoading} />
+            <Input
+              name="tel"
+              type="tel"
+              active={isCreateLoading}
+              data={dataPopup?.tel}
+            />
             <small>Формат +79********</small>
             <Notification message={errors.tel?.message} />
             <div className="flex justify-end items-center">
               <button
-                className={`button text-xl block button-fuchsia ${
-                  !isValid && "button-unactive"
-                }`}
-                type="submit"
-                disabled={!isValid || isCreateLoading}
-              >
-                {isCreateLoading ? <Loader border={false} /> : "Создать"}
-              </button>
-              <button
-                className={`button button-red text-xl ml-[10px] ${
+                className={`button button-red text-xl ${
                   isCreateLoading && "button-unactive"
                 }`}
                 type="button"
@@ -137,11 +149,20 @@ const ListPage: React.FC = () => {
               >
                 Отмена
               </button>
+              <button
+                className={`button text-xl block button-fuchsia ml-[10px] ${
+                  !isValid && "button-unactive"
+                }`}
+                type="submit"
+                disabled={!isValid || isCreateLoading}
+              >
+                {isCreateLoading ? <Loader border={false} /> : "Создать"}
+              </button>
             </div>
           </Form>
         </PopupForm>
       )}
-      <div className="flex flex-col justify-center p-[20px]">
+      <div className="flex flex-col justify-center items-center mx-auto h-screen">
         {isError && (error as CustomError).status !== 403 ? (
           <ErrorWindow />
         ) : (

@@ -56,6 +56,15 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ["Contacts"],
     }),
+    editContact: build.mutation<string, IContact>({
+      query: (contact) => ({
+        url: "contact",
+        method: "PUT",
+        credentials: "include",
+        body: contact,
+      }),
+      invalidatesTags: ["Contacts"],
+    }),
   }),
 });
 
@@ -65,4 +74,5 @@ export const {
   useLogoutMutation,
   useDeleteContactMutation,
   useCreateNewContactMutation,
+  useEditContactMutation,
 } = contactsApi;

@@ -1,12 +1,22 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { IContact } from "../models/models";
 import { useDeleteContactMutation } from "../store/api/contacts.api";
+import { activate } from "../store/popupSlice";
 import Loader from "./Loader";
 
 const Contact: React.FC<{ data: IContact }> = (props) => {
   const { data: contactData } = props;
+
   const [deleteContact, { data, isError, isLoading }] =
     useDeleteContactMutation();
+
+  const dispatch = useDispatch();
+
+  const handleEdit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    dispatch(activate(contactData));
+  };
 
   const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -34,7 +44,11 @@ const Contact: React.FC<{ data: IContact }> = (props) => {
         <span>{contactData.tel}</span>
       </div>
       <div className="col-start-2 col-end-3 row-start-3 row-end-4 grid grid-cols-2 auto-cols-auto gap-[5px]">
-        <button className="button button-yellow p-[5px]" type="submit">
+        <button
+          className="button button-yellow p-[5px]"
+          type="button"
+          onClick={handleEdit}
+        >
           Изменить
         </button>
         {isLoading ? (

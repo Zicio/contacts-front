@@ -1,5 +1,5 @@
-import { IPopupState } from "./../models/models";
-import { createSlice, Slice } from "@reduxjs/toolkit";
+import { IContact, IPopupState } from "./../models/models";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const popupSlice = createSlice({
   name: "popup",
@@ -7,8 +7,11 @@ const popupSlice = createSlice({
     active: false,
   } as IPopupState,
   reducers: {
-    activate(state: IPopupState) {
+    activate(state: IPopupState, action?: PayloadAction<IContact | undefined>) {
       state.active = true;
+      if (action) {
+        state.data = action.payload;
+      }
     },
     deactivate(state: IPopupState) {
       state.active = false;

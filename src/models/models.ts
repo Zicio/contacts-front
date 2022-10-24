@@ -33,4 +33,5 @@ export interface IValidationRules {
 
 export interface IPopupState {
   active: boolean;
+  data?: IContact;
 }

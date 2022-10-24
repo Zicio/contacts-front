@@ -1,11 +1,14 @@
 import { FieldValues, useFormContext, UseFormReturn } from "react-hook-form";
 import { IValidationRules, Warning } from "../models/models";
 
-const Input: React.FC<{ name: string; type: string; active: boolean }> = (
-  props
-) => {
-  const { name, type, active } = props;
-  const { register }: UseFormReturn<FieldValues> = useFormContext();
+const Input: React.FC<{
+  name: string;
+  type: string;
+  active: boolean;
+  data?: string;
+}> = (props) => {
+  const { name, type, active, data } = props;
+  const { register, setValue }: UseFormReturn<FieldValues> = useFormContext();
   const getValidationRules = (nameField: string) => {
     switch (nameField) {
       case "password":
@@ -29,6 +32,10 @@ const Input: React.FC<{ name: string; type: string; active: boolean }> = (
     }
   };
   const rules: IValidationRules = getValidationRules(name);
+
+  if (data) {
+    setValue(name, data);
+  }
 
   return (
     <input

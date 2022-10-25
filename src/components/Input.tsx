@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { FieldValues, useFormContext, UseFormReturn } from "react-hook-form";
 import { IValidationRules, Warning } from "../models/models";
 
@@ -33,9 +34,11 @@ const Input: React.FC<{
   };
   const rules: IValidationRules = getValidationRules(name);
 
-  if (data) {
-    setValue(name, data);
-  }
+  useEffect(() => {
+    if (data) {
+      setValue(name, data);
+    }
+  }, []);
 
   return (
     <input

@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 import Contact from "../components/Contact";
 import ErrorWindow from "../components/ErrorWindow";
 import Loader from "../components/Loader";
 import { CustomError, IContact } from "../models/models";
 import {
-  useCreateNewContactMutation,
-  useEditContactMutation,
+  useChangeContactMutation,
   useGetContactsQuery,
   useLogoutMutation,
 } from "../store/api/contacts.api";
@@ -16,12 +15,11 @@ import Form from "../components/Form";
 import Input from "../components/Input";
 import Notification from "../components/Notification";
 import { useDispatch, useSelector } from "react-redux";
-import { activate, deactivate } from "../store/popupSlice";
+import { deactivate } from "../store/popupSlice";
 import { RootState } from "../store/store";
+import UserTicket from "../components/UserTicket";
 
 const ListPage: React.FC = () => {
-  const { user } = useParams();
-
   const { data, isError, error, isLoading } = useGetContactsQuery();
 
   const [logout, { data: logoutData, isLoading: isLogoutLoading }] =
@@ -35,12 +33,7 @@ const ListPage: React.FC = () => {
       isError: isCreateError,
       error: createError,
     },
-  ] = useCreateNewContactMutation();
-
-  const [
-    edit,
-    { data: editData, isLoading: isEditLoading, isError: isEditError },
-  ] = useEditContactMutation();
+  ] = useChangeContactMutation();
 
   const { active: statePopup, data: dataPopup } = useSelector(
     (state: RootState) => state.popup
@@ -49,22 +42,9 @@ const ListPage: React.FC = () => {
 
   const navigate: NavigateFunction = useNavigate();
 
-  //Обработчик выхода из профиля
-  const handleLogout: React.MouseEventHandler<HTMLButtonElement> = async (
-    e
-  ) => {
-    e.preventDefault();
-    await logout();
-  };
-
-  //Обработчик появления формы для нового контакта
-  const handleShowForm: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    e.preventDefault();
-    dispatch(activate());
-  };
-
   //Обработчик отправки нового контакта
-  const handleNewContact: SubmitHandler<IContact> = async (form) => {
+  const handleContact: SubmitHandler<IContact> = async (form) => {
+    dataPopup?.id && (form.id = dataPopup.id);
     await createContact(form);
     reset();
     dispatch(deactivate());
@@ -78,9 +58,9 @@ const ListPage: React.FC = () => {
     dispatch(deactivate());
   };
 
-  //Навигация на страницу входа при успешном выходе из профиля
+  //Навигация на страницу входа при ошибке права доступа
   useEffect(() => {
-    if (logoutData || (isError && (error as CustomError).status === 403)) {
+    if (isError && (error as CustomError).status === 403) {
       navigate("/contacts");
     }
   }, [error, isError, logoutData, navigate]);
@@ -105,7 +85,7 @@ const ListPage: React.FC = () => {
       {statePopup && (
         <PopupForm>
           <Form
-            onSubmit={handleNewContact}
+            onSubmit={handleContact}
             methods={methods}
             title="Создать новый контакт"
           >
@@ -167,33 +147,23 @@ const ListPage: React.FC = () => {
           <ErrorWindow />
         ) : (
           <>
-            <article className="box box-border min-w-[200px] w-fit mr-0 self-end grid grid-cols-2 gap-[10px] items-center font-bold text-xl">
-              <span className="text-yellow-400 text-3xl text-center italic col-start-1 col-end-2 row-start-1 row-end-2">
-                {user}
-              </span>
-              <button
-                className="button button-fuchsia col-start-2 col-end-3 row-start-1 row-end-2 text-base"
-                type="submit"
-                onClick={handleLogout}
-              >
-                {isLogoutLoading ? <Loader border={false} /> : "Выйти"}
-              </button>
-              <button
-                className="button button-fuchsia col-start-1 col-end-3 row-start-2 row-end-3 text-base"
-                onClick={handleShowForm}
-              >
-                Создать новый контакт
-              </button>
-            </article>
-            <main className="flex justify-center items-start mx-auto mt-[60px] h-screen box-border min-w-[350px] w-[50%] max-w-[500px]">
+            <UserTicket />
+            <main className="flex flex-col justify-start items-start mx-auto mt-[60px] p-[20px] h-screen box-border min-w-[350px] w-[50%] max-w-[500px]">
               {data && (
-                <ul
-                  className={`grid grid-rows-[${data.length}] gap-[20px] box-border w-full`}
-                >
-                  {data.map((contact: IContact) => (
-                    <Contact key={contact.id} data={contact} />
-                  ))}
-                </ul>
+                <>
+                  <select className="input cursor-pointer mb-[20px]">
+                    <option value="date">По дате создания</option>
+                    <option value="descending alphabet">↑ По алфавиту</option>
+                    <option value="ascending alphabet">↓ По алфавиту</option>
+                  </select>
+                  <ul
+                    className={`grid grid-rows-[${data.length}] gap-[20px] box-border w-full`}
+                  >
+                    {data.map((contact: IContact) => (
+                      <Contact key={contact.id} data={contact} />
+                    ))}
+                  </ul>
+                </>
               )}
             </main>
           </>

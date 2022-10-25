@@ -47,19 +47,10 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ["Contacts"],
     }),
-    createNewContact: build.mutation<string, IContact>({
+    changeContact: build.mutation<string, IContact>({
       query: (contact) => ({
         url: "contact",
         method: "POST",
-        credentials: "include",
-        body: contact,
-      }),
-      invalidatesTags: ["Contacts"],
-    }),
-    editContact: build.mutation<string, IContact>({
-      query: (contact) => ({
-        url: "contact",
-        method: "PUT",
         credentials: "include",
         body: contact,
       }),
@@ -73,6 +64,5 @@ export const {
   useGetContactsQuery,
   useLogoutMutation,
   useDeleteContactMutation,
-  useCreateNewContactMutation,
-  useEditContactMutation,
+  useChangeContactMutation,
 } = contactsApi;

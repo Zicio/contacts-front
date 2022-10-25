@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { ChangeEventHandler, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import Contact from "../components/Contact";
@@ -16,6 +16,7 @@ import Input from "../components/Input";
 import Notification from "../components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { deactivate } from "../store/popupSlice";
+import { addContacts } from "../store/contactsListSlice";
 import { RootState } from "../store/store";
 import UserTicket from "../components/UserTicket";
 
@@ -35,10 +36,13 @@ const ListPage: React.FC = () => {
     },
   ] = useChangeContactMutation();
 
+  const dispatch = useDispatch();
+
   const { active: statePopup, data: dataPopup } = useSelector(
     (state: RootState) => state.popup
   );
-  const dispatch = useDispatch();
+
+  // const contacts = useSelector((state: RootState) => state.contacts);
 
   const navigate: NavigateFunction = useNavigate();
 
@@ -58,12 +62,32 @@ const ListPage: React.FC = () => {
     dispatch(deactivate());
   };
 
+  const handleSelectChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    e.preventDefault();
+    console.log(e.target.options[0].value);
+    // data?.sort((a, b) => {
+    //   if (a.name > b.name) {
+    //     return 1;
+    //   }
+    //   if (a.name < b.name) {
+    //     return -1;
+    //   }
+    //   return 0;
+    // })
+  };
+
   //Навигация на страницу входа при ошибке права доступа
   useEffect(() => {
     if (isError && (error as CustomError).status === 403) {
       navigate("/contacts");
     }
   }, [error, isError, logoutData, navigate]);
+
+  // useEffect(() => {
+  //   if (data) {
+  //     dispatch(addContacts(data))
+  //   }
+  // }, [data, dispatch]);
 
   const methods = useForm<IContact>({
     mode: "onChange",
@@ -142,16 +166,16 @@ const ListPage: React.FC = () => {
           </Form>
         </PopupForm>
       )}
-      <div className="flex flex-col justify-center items-center mx-auto h-screen">
+      <div className="flex flex-col justify-center items-center mx-auto h-screen p-[20px]">
         {isError && (error as CustomError).status !== 403 ? (
           <ErrorWindow />
         ) : (
           <>
             <UserTicket />
-            <main className="flex flex-col justify-start items-start mx-auto mt-[60px] p-[20px] h-screen box-border min-w-[350px] w-[50%] max-w-[500px]">
+            <main className="flex flex-col justify-start items-start mx-auto mt-[60px] h-screen box-border min-w-[350px] w-[50%] max-w-[500px]">
               {data && (
                 <>
-                  <select className="input cursor-pointer mb-[20px]">
+                  <select className="select" onChange={handleSelectChange}>
                     <option value="date">По дате создания</option>
                     <option value="descending alphabet">↑ По алфавиту</option>
                     <option value="ascending alphabet">↓ По алфавиту</option>

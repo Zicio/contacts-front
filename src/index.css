@@ -11,6 +11,10 @@ html {
   @apply block rounded-md p-[5px] bg-gray-900 border-2 border-fuchsia-600 text-white font-medium text-base;
 }
 
+.select {
+  @apply block rounded-md p-[5px] bg-gray-900 border-2 border-black text-white font-medium text-base cursor-pointer mb-[20px] hover:shadow-sm hover:shadow-black;
+}
+
 .button {
   @apply rounded-md p-[5px] cursor-pointer text-white hover:shadow-lg font-bold border border-black;
 }

@@ -2,10 +2,12 @@ import { contactsApi } from "./api/contacts.api";
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import popupSlice from "./popupSlice";
+import contactsListSlice from "./contactsListSlice";
 
 export const store = configureStore({
   reducer: {
     popup: popupSlice,
+    contacts: contactsListSlice,
     [contactsApi.reducerPath]: contactsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

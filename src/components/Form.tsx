@@ -1,9 +1,13 @@
-import { IContact, IUser } from "../models/models";
-import { SubmitHandler, FormProvider, UseFormReturn } from "react-hook-form";
+import {
+  SubmitHandler,
+  FormProvider,
+  UseFormReturn,
+  FieldValues,
+} from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 
 const Form: React.FC<{
-  onSubmit: SubmitHandler<IUser> | SubmitHandler<IContact>;
+  onSubmit: SubmitHandler<FieldValues>;
   methods: UseFormReturn;
   title: string;
   children: React.ReactNode;

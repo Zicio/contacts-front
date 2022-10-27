@@ -44,5 +44,5 @@ html {
 }
 
 .box {
-  @apply border border-black rounded-md shadow-lg shadow-black p-[15px] bg-gray-800 text-white;
+  @apply border border-black rounded-md shadow-lg shadow-black p-[25px] bg-gray-800 text-white;
 }

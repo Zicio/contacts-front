@@ -19,10 +19,10 @@ export interface CustomError {
 
 export interface IContact {
   id?: string;
-  name?: string;
-  surname?: string;
-  tel?: string;
-  city?: string;
+  name: string;
+  surname: string;
+  tel: string;
+  city: string;
 }
 
 export interface IValidationRules {
@@ -34,4 +34,10 @@ export interface IValidationRules {
 export interface IPopupState {
   active: boolean;
   data?: IContact;
+}
+
+export enum Sort {
+  date = "По дате создания",
+  ascendingAlphabet = "↑ По имени",
+  descendingAlphabet = "↓ По имени",
 }

@@ -1,5 +1,5 @@
 const Notification: React.FC<{
-  message: any | undefined;
+  message: string | undefined;
 }> = (props) => {
   const { message } = props;
   return (

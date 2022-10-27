@@ -5,11 +5,12 @@ const contactsListSlice = createSlice({
   name: "contacts",
   initialState: [] as IContact[],
   reducers: {
-    addContacts(state, action: PayloadAction<IContact[]>) {
+    setContacts(state, action: PayloadAction<IContact[]>) {
       state = action.payload;
+      return state;
     },
   },
 });
 
 export default contactsListSlice.reducer;
-export const { addContacts } = contactsListSlice.actions;
+export const { setContacts } = contactsListSlice.actions;

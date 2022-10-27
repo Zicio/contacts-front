@@ -16,18 +16,24 @@ import Input from "../components/Input";
 import Notification from "../components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { deactivate } from "../store/popupSlice";
-import { addContacts } from "../store/contactsListSlice";
+import { setContacts } from "../store/contactsListSlice";
 import { RootState } from "../store/store";
 import UserTicket from "../components/UserTicket";
+import Select from "../components/Select";
 
 const ListPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate: NavigateFunction = useNavigate();
+
+  //Получение контактов
   const { data, isError, error, isLoading } = useGetContactsQuery();
 
-  const [logout, { data: logoutData, isLoading: isLogoutLoading }] =
-    useLogoutMutation();
+  //Выход из профиля
+  const [, { data: logoutData }] = useLogoutMutation();
 
+  //Создание или изменение контакта
   const [
-    createContact,
+    changeContact,
     {
       data: createData,
       isLoading: isCreateLoading,
@@ -36,23 +42,31 @@ const ListPage: React.FC = () => {
     },
   ] = useChangeContactMutation();
 
-  const dispatch = useDispatch();
-
+  //State Popup
   const { active: statePopup, data: dataPopup } = useSelector(
     (state: RootState) => state.popup
   );
 
-  // const contacts = useSelector((state: RootState) => state.contacts);
-
-  const navigate: NavigateFunction = useNavigate();
+  //State Contacts
+  const contacts: IContact[] = useSelector(
+    (state: RootState) => state.contacts
+  );
 
   //Обработчик отправки нового контакта
   const handleContact: SubmitHandler<IContact> = async (form) => {
     dataPopup?.id && (form.id = dataPopup.id);
-    await createContact(form);
-    reset();
-    dispatch(deactivate());
+    await changeContact(form);
+    // reset();
+    // dispatch(deactivate());
   };
+
+  //Закрытие модального окна после отправки данных формы
+  useEffect(() => {
+    if (createData) {
+      reset();
+      dispatch(deactivate());
+    }
+  }, [createData, dispatch]);
 
   //Обработчик кнопки "Отмена" в модальном окне
   const handleCancellation: React.MouseEventHandler<HTMLButtonElement> = (
@@ -62,18 +76,38 @@ const ListPage: React.FC = () => {
     dispatch(deactivate());
   };
 
+  //Обработчик сортировки контактов
   const handleSelectChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     e.preventDefault();
-    console.log(e.target.options[0].value);
-    // data?.sort((a, b) => {
-    //   if (a.name > b.name) {
-    //     return 1;
-    //   }
-    //   if (a.name < b.name) {
-    //     return -1;
-    //   }
-    //   return 0;
-    // })
+    console.log(e.target.options[e.target.selectedIndex].value);
+    const arr = [...data!];
+    switch (e.target.options[e.target.selectedIndex].value) {
+      case "ascendingAlphabet":
+        arr.sort((a, b) => {
+          console.log(a);
+          if (a.name > b.name) {
+            return 1;
+          }
+          if (a.name < b.name) {
+            return -1;
+          }
+          return 0;
+        });
+        break;
+      case "descendingAlphabet":
+        arr.sort((a, b) => {
+          console.log(a);
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (a.name < b.name) {
+            return 1;
+          }
+          return 0;
+        });
+        break;
+    }
+    dispatch(setContacts(arr));
   };
 
   //Навигация на страницу входа при ошибке права доступа
@@ -83,12 +117,14 @@ const ListPage: React.FC = () => {
     }
   }, [error, isError, logoutData, navigate]);
 
-  // useEffect(() => {
-  //   if (data) {
-  //     dispatch(addContacts(data))
-  //   }
-  // }, [data, dispatch]);
+  //Сохранение контактов в СontactsState
+  useEffect(() => {
+    if (data) {
+      dispatch(setContacts(data));
+    }
+  }, [data, dispatch]);
 
+  //Методы формы
   const methods = useForm<IContact>({
     mode: "onChange",
   });
@@ -172,18 +208,21 @@ const ListPage: React.FC = () => {
         ) : (
           <>
             <UserTicket />
-            <main className="flex flex-col justify-start items-start mx-auto mt-[60px] h-screen box-border min-w-[350px] w-[50%] max-w-[500px]">
+            <main className="flex flex-col justify-start items-start mx-auto mt-[60px] h-screen box-border min-w-[400px] w-[50%] max-w-[500px]">
               {data && (
                 <>
-                  <select className="select" onChange={handleSelectChange}>
-                    <option value="date">По дате создания</option>
-                    <option value="descending alphabet">↑ По алфавиту</option>
-                    <option value="ascending alphabet">↓ По алфавиту</option>
-                  </select>
+                  <Select
+                    onChange={handleSelectChange}
+                    options={[
+                      "date",
+                      "ascendingAlphabet",
+                      "descendingAlphabet",
+                    ]}
+                  />
                   <ul
-                    className={`grid grid-rows-[${data.length}] gap-[20px] box-border w-full`}
+                    className={`grid grid-rows-[${contacts.length}] gap-[20px] box-border w-full`}
                   >
-                    {data.map((contact: IContact) => (
+                    {contacts.map((contact: IContact) => (
                       <Contact key={contact.id} data={contact} />
                     ))}
                   </ul>

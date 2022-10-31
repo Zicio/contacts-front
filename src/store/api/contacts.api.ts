@@ -56,6 +56,13 @@ export const contactsApi = createApi({
       }),
       invalidatesTags: ["Contacts"],
     }),
+    refreshAccess: build.query<string, void>({
+      query: () => ({
+        url: "authorization",
+        method: "GET",
+        credentials: "include",
+      }),
+    }),
   }),
 });
 
@@ -65,4 +72,5 @@ export const {
   useLogoutMutation,
   useDeleteContactMutation,
   useChangeContactMutation,
+  useLazyRefreshAccessQuery,
 } = contactsApi;

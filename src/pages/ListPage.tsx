@@ -35,10 +35,10 @@ const ListPage: React.FC = () => {
   const [
     changeContact,
     {
-      data: createData,
-      isLoading: isCreateLoading,
-      isError: isCreateError,
-      error: createError,
+      data: changeData,
+      isLoading: isChangeLoading,
+      isError: isChangeError,
+      error: ChangeError,
     },
   ] = useChangeContactMutation();
 
@@ -62,11 +62,11 @@ const ListPage: React.FC = () => {
 
   //Закрытие модального окна после отправки данных формы
   useEffect(() => {
-    if (createData) {
+    if (changeData) {
       reset();
       dispatch(deactivate());
     }
-  }, [createData, dispatch]);
+  }, [changeData, dispatch]);
 
   //Обработчик кнопки "Отмена" в модальном окне
   const handleCancellation: React.MouseEventHandler<HTMLButtonElement> = (
@@ -152,28 +152,28 @@ const ListPage: React.FC = () => {
             <Input
               name="name"
               type="text"
-              active={isCreateLoading}
+              active={isChangeLoading}
               data={dataPopup?.name}
             />
             <Notification message={errors.name?.message} />
             <Input
               name="surname"
               type="text"
-              active={isCreateLoading}
+              active={isChangeLoading}
               data={dataPopup?.surname}
             />
             <Notification message={errors.surname?.message} />
             <Input
               name="city"
               type="text"
-              active={isCreateLoading}
+              active={isChangeLoading}
               data={dataPopup?.city}
             />
             <Notification message={errors.city?.message} />
             <Input
               name="tel"
               type="tel"
-              active={isCreateLoading}
+              active={isChangeLoading}
               data={dataPopup?.tel}
             />
             <small>Формат +79********</small>
@@ -181,11 +181,11 @@ const ListPage: React.FC = () => {
             <div className="flex justify-end items-center">
               <button
                 className={`button button-red text-xl ${
-                  isCreateLoading && "button-unactive"
+                  isChangeLoading && "button-unactive"
                 }`}
                 type="button"
                 onClick={handleCancellation}
-                disabled={isCreateLoading}
+                disabled={isChangeLoading}
               >
                 Отмена
               </button>
@@ -194,9 +194,9 @@ const ListPage: React.FC = () => {
                   !isValid && "button-unactive"
                 }`}
                 type="submit"
-                disabled={!isValid || isCreateLoading}
+                disabled={!isValid || isChangeLoading}
               >
-                {isCreateLoading ? <Loader border={false} /> : "Создать"}
+                {isChangeLoading ? <Loader border={false} /> : "Создать"}
               </button>
             </div>
           </Form>

@@ -4,11 +4,16 @@ const refreshJWTSlice = createSlice({
   name: "refreshJWT",
   initialState: true,
   reducers: {
-    abort(state) {
+    deactivateRefresh(state) {
       state = false;
+      return state;
+    },
+    activateRefresh(state) {
+      state = true;
+      return state;
     },
   },
 });
 
 export default refreshJWTSlice.reducer;
-export const { abort } = refreshJWTSlice.actions;
+export const { activateRefresh, deactivateRefresh } = refreshJWTSlice.actions;

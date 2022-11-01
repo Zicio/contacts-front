@@ -1,5 +1,5 @@
 import { SubmitHandler, FormProvider, UseFormReturn } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
+// import { DevTool } from "@hookform/devtools";
 
 const Form: React.FC<{
   onSubmit: SubmitHandler<any>; //TODO Пофиксить тип 'any'

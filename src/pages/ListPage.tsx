@@ -1,11 +1,11 @@
 import { ChangeEventHandler, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { NavigateFunction, useNavigate } from "react-router-dom";
+import { useInterval } from "usehooks-ts";
 import Contact from "../components/Contact";
 import ErrorWindow from "../components/ErrorWindow";
 import Loader from "../components/Loader";
 import { CustomError, IContact } from "../models/models";
-import { useInterval } from "usehooks-ts";
 import {
   useChangeContactMutation,
   useGetContactsQuery,
@@ -26,18 +26,15 @@ import Select from "../components/Select";
 const ListPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate: NavigateFunction = useNavigate();
-  const interval: number = 60000; // Интервал отправки запроса на обновления токенов доступа (чуть меньше времени жизни accessToken)
+  const interval: number = 2400000; // Интервал отправки запроса на обновления токенов доступа (чуть меньше времени жизни accessToken)
 
   // Обновление токенов доступа
-  const [
-    refreshAccess,
-    { data: refreshData, isLoading: isRefreshLoading, isError: isRefreshError },
-  ] = useLazyRefreshAccessQuery();
+  const [refreshAccess] = useLazyRefreshAccessQuery();
 
-  //State для вкд/откл интервала отправки запроса на обновление токенов
+  //State для вкл/откл интервала отправки запроса на обновление токенов
   const refresh: boolean = useSelector((state: RootState) => state.refreshJWT);
 
-  //Интервал отправки запроса на обновление токенов
+  // Интервал отправки запроса на обновление токенов
   useInterval(
     () => {
       refreshAccess();

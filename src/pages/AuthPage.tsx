@@ -11,8 +11,11 @@ import Input from "../components/Input";
 import ErrorWindow from "../components/ErrorWindow";
 import { useEffect } from "react";
 import Form from "../components/Form";
+import { activateRefresh } from "../store/refreshJWTSlice";
+import { useDispatch } from "react-redux";
 
 const AuthPage: React.FC = () => {
+  const dispatch = useDispatch();
   const [fetchData, { data, isLoading, isError, error }] =
     useAuthorizationMutation();
   const {
@@ -37,14 +40,18 @@ const AuthPage: React.FC = () => {
     reset();
   };
 
-  //Навигация на страницу контактов при активном accessJWToken
+  // Чистка LocalStorage при отсутствии accessJwToken + Навигация на страницу контактов при активном accessJWToken
   useEffect(() => {
+    if (document.cookie.indexOf("accessJwToken") === -1) {
+      localStorage.clear();
+    }
     localStorage.user && navigate(`/contacts/${localStorage.user}`);
   }, []);
 
   //Запись username в LocalStorage при успешной авторизации
   useEffect(() => {
     if (data) {
+      dispatch(activateRefresh());
       localStorage.user = data;
       navigate(`/contacts/${data}`);
     }

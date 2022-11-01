@@ -5,9 +5,11 @@ import Contact from "../components/Contact";
 import ErrorWindow from "../components/ErrorWindow";
 import Loader from "../components/Loader";
 import { CustomError, IContact } from "../models/models";
+import { useInterval } from "usehooks-ts";
 import {
   useChangeContactMutation,
   useGetContactsQuery,
+  useLazyRefreshAccessQuery,
   useLogoutMutation,
 } from "../store/api/contacts.api";
 import PopupForm from "../components/PopupForm";
@@ -24,6 +26,24 @@ import Select from "../components/Select";
 const ListPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate: NavigateFunction = useNavigate();
+  const interval: number = 60000; // Интервал отправки запроса на обновления токенов доступа (чуть меньше времени жизни accessToken)
+
+  // Обновление токенов доступа
+  const [
+    refreshAccess,
+    { data: refreshData, isLoading: isRefreshLoading, isError: isRefreshError },
+  ] = useLazyRefreshAccessQuery();
+
+  //State для вкд/откл интервала отправки запроса на обновление токенов
+  const refresh: boolean = useSelector((state: RootState) => state.refreshJWT);
+
+  //Интервал отправки запроса на обновление токенов
+  useInterval(
+    () => {
+      refreshAccess();
+    },
+    refresh ? interval : null
+  );
 
   //Получение контактов
   const { data, isError, error, isLoading } = useGetContactsQuery();

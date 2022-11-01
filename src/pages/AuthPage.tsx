@@ -31,13 +31,21 @@ const AuthPage: React.FC = () => {
 
   const navigate: NavigateFunction = useNavigate();
 
+  //Обработчика отправки формы авторизации
   const onSubmit: SubmitHandler<IUser> = async (form) => {
     await fetchData(form);
     reset();
   };
 
+  //Навигация на страницу контактов при активном accessJWToken
+  useEffect(() => {
+    localStorage.user && navigate(`/contacts/${localStorage.user}`);
+  }, []);
+
+  //Запись username в LocalStorage при успешной авторизации
   useEffect(() => {
     if (data) {
+      localStorage.user = data;
       navigate(`/contacts/${data}`);
     }
   }, [data, navigate]);

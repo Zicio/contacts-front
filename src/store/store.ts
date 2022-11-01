@@ -3,11 +3,13 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
 import popupSlice from "./popupSlice";
 import contactsListSlice from "./contactsListSlice";
+import refreshJWTSlice from "./refreshJWTSlice";
 
 export const store = configureStore({
   reducer: {
     popup: popupSlice,
     contacts: contactsListSlice,
+    refreshJWT: refreshJWTSlice,
     [contactsApi.reducerPath]: contactsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>

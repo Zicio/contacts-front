@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
 import { useLogoutMutation } from "../store/api/contacts.api";
 import { activate } from "../store/popupSlice";
+import { abort } from "../store/refreshJWTSlice";
 import Loader from "./Loader";
 
 const UserTicket: React.FC = () => {
@@ -12,6 +13,7 @@ const UserTicket: React.FC = () => {
 
   const navigate: NavigateFunction = useNavigate();
 
+  //Logout
   const [logout, { data: logoutData, isLoading: isLogoutLoading }] =
     useLogoutMutation();
 
@@ -21,6 +23,7 @@ const UserTicket: React.FC = () => {
   ) => {
     e.preventDefault();
     await logout();
+    abort();
   };
 
   //Обработчик появления формы для нового контакта

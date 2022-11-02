@@ -4,12 +4,12 @@ import { IContact } from "../models/models";
 import { useDeleteContactMutation } from "../store/api/contacts.api";
 import { activate } from "../store/popupSlice";
 import Loader from "./Loader";
+import Notification from "./Notification";
 
 const Contact: React.FC<{ data: IContact }> = (props) => {
   const { data: contactData } = props;
 
-  const [deleteContact, { data, isError, isLoading }] =
-    useDeleteContactMutation();
+  const [deleteContact, { isError, isLoading }] = useDeleteContactMutation();
 
   const dispatch = useDispatch();
 
@@ -63,6 +63,11 @@ const Contact: React.FC<{ data: IContact }> = (props) => {
           </button>
         )}
       </div>
+      {isError && (
+        <div className="col-start-1 col-end-3 row-start-4 row-end-5">
+          <Notification message="Возникла ошибка при удалении контакта. Попробуйте еще раз" />
+        </div>
+      )}
     </li>
   );
 };

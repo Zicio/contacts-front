@@ -39,7 +39,7 @@ const ListPage: React.FC = () => {
     () => {
       refreshAccess();
     },
-    refresh ? interval : null
+    refresh ? interval : null //TODO Убрать лишний State
   );
 
   //Получение контактов
@@ -51,12 +51,7 @@ const ListPage: React.FC = () => {
   //Создание или изменение контакта
   const [
     changeContact,
-    {
-      data: changeData,
-      isLoading: isChangeLoading,
-      isError: isChangeError,
-      error: ChangeError,
-    },
+    { data: changeData, isLoading: isChangeLoading, isError: isChangeError },
   ] = useChangeContactMutation();
 
   //State Popup
@@ -69,12 +64,10 @@ const ListPage: React.FC = () => {
     (state: RootState) => state.contacts
   );
 
-  //Обработчик отправки нового контакта
+  //Обработчик отправки нового(измененного) контакта
   const handleContact: SubmitHandler<IContact> = async (form) => {
     dataPopup?.id && (form.id = dataPopup.id);
     await changeContact(form);
-    // reset();
-    // dispatch(deactivate());
   };
 
   //Закрытие модального окна после отправки данных формы
@@ -216,6 +209,9 @@ const ListPage: React.FC = () => {
                 {isChangeLoading ? <Loader border={false} /> : "Создать"}
               </button>
             </div>
+            {isChangeError && (
+              <Notification message="Возникла ошибка при создании(изменении) контакта. Попробуйте еще раз" />
+            )}
           </Form>
         </PopupForm>
       )}

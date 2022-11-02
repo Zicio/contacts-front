@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from "react";
-import { Sort } from "../models/models";
+import { SelectType } from "../models/models";
 
 const Select: React.FC<{
   onChange: ChangeEventHandler<HTMLSelectElement>;
@@ -10,7 +10,7 @@ const Select: React.FC<{
     <select className="select" onChange={onChange}>
       {options.map((option) => (
         <option value={option} key={options.indexOf(option)}>
-          {Sort[option as keyof typeof Sort]}
+          {SelectType[option as keyof typeof SelectType]}
         </option>
       ))}
     </select>

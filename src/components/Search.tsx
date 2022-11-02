@@ -1,51 +1,48 @@
-import { ChangeEventHandler } from "react";
-import { useSelector } from "react-redux";
-import { IContact } from "../models/models";
-import { RootState } from "../store/store";
+import { ChangeEventHandler, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { searchType } from "../models/models";
+import { useGetContactsQuery } from "../store/api/contacts.api";
+import { searchContact } from "../store/contactsListSlice";
 import Select from "./Select";
 
 const Search: React.FC = () => {
-  const contacts: IContact[] = useSelector(
-    (state: RootState) => state.contacts
-  );
+  const dispatch = useDispatch();
 
-  const handleChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+  const { data: fetchData } = useGetContactsQuery();
+
+  const [data, setData] = useState<string>("");
+
+  const [type, setType] = useState<string>("");
+
+  const handleSelectChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     e.preventDefault();
-    // switch (e.target.options[e.target.selectedIndex].value) {
-    //   case "ascendingAlphabet": //TODO
-    //       arr.sort((a, b) => {
-    //         console.log(a);
-    //         if (a.name > b.name) {
-    //           return 1;
-    //         }
-    //         if (a.name < b.name) {
-    //           return -1;
-    //         }
-    //         return 0;
-    //       });
-    //       break;
-    //     case "descendingAlphabet":
-    //       arr.sort((a, b) => {
-    //         console.log(a);
-    //         if (a.name > b.name) {
-    //           return -1;
-    //         }
-    //         if (a.name < b.name) {
-    //           return 1;
-    //         }
-    //         return 0;
-    //       });
-    //       break;
-    //   }
-    //   dispatch(setContacts(arr));
+    setType(e.target.options[e.target.selectedIndex].value);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const value = e.target.value.trim();
+    setData(value as string);
+  };
+
+  useEffect(() => {
+    if (data && fetchData) {
+      dispatch(searchContact({ type, data, fetchData }));
+    }
+  }, [data]);
+
   return (
-    <div className="box">
-      <input type="text" placeholder="Поиск..." />
+    <div className="flex">
+      <input
+        className="input"
+        type="text"
+        placeholder="Поиск..."
+        value={data}
+        onChange={handleInputChange}
+      />
       <Select
         options={["name", "surname", "city", "tel"]}
-        onChange={handleChange}
+        onChange={handleSelectChange}
       />
     </div>
   );

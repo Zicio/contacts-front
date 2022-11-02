@@ -1,3 +1,4 @@
+import { IContact } from "./models";
 export interface IUser {
   username?: string;
   password?: string;
@@ -23,6 +24,7 @@ export interface IContact {
   surname: string;
   tel: string;
   city: string;
+  hidden?: boolean;
 }
 
 export interface IValidationRules {
@@ -36,12 +38,9 @@ export interface IPopupState {
   data?: IContact;
 }
 
-export enum Sort {
+export enum SelectType {
   ascendingAlphabet = "↑ По имени",
   descendingAlphabet = "↓ По имени",
-}
-
-export enum Search {
   name = "По имени",
   surname = "По фамилии",
   city = "По городу проживания",
@@ -49,3 +48,11 @@ export enum Search {
 }
 
 export type refreshJWTSliceState = number | null;
+
+export type searchType = "name" | "surname" | "city" | "tel";
+
+export interface ISearch {
+  type: string;
+  data: string;
+  fetchData: IContact[];
+}

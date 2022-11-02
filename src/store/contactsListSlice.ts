@@ -1,4 +1,4 @@
-import { IContact } from "./../models/models";
+import { IContact, ISearch } from "./../models/models";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 const contactsListSlice = createSlice({
@@ -38,8 +38,17 @@ const contactsListSlice = createSlice({
       state = arr;
       return state;
     },
+    searchContact(state, action: PayloadAction<ISearch>) {
+      const { type, data, fetchData } = action.payload;
+      const result = fetchData.filter(
+        (contact) => !contact[type].includes(data)
+      );
+      state = result;
+      return state;
+    },
   },
 });
 
 export default contactsListSlice.reducer;
-export const { setContacts, sortContacts } = contactsListSlice.actions;
+export const { setContacts, sortContacts, searchContact } =
+  contactsListSlice.actions;

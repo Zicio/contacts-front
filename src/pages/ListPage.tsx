@@ -22,6 +22,7 @@ import { setContacts, sortContacts } from "../store/contactsListSlice";
 import { RootState } from "../store/store";
 import UserTicket from "../components/UserTicket";
 import Select from "../components/Select";
+import Search from "../components/Search";
 
 const ListPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -198,6 +199,7 @@ const ListPage: React.FC = () => {
                     onChange={handleSelectChange}
                     options={["descendingAlphabet", "ascendingAlphabet"]}
                   />
+                  <Search />
                   <ul
                     className={`grid grid-rows-[${contacts.length}] gap-[20px] box-border w-full`}
                   >

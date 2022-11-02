@@ -41,3 +41,10 @@ export enum Sort {
   ascendingAlphabet = "↑ По имени",
   descendingAlphabet = "↓ По имени",
 }
+
+export enum Search {
+  name = "По имени",
+  surname = "По фамилии",
+  city = "По городу проживания",
+  tel = "По номеру телефона",
+}

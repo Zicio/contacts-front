@@ -89,8 +89,7 @@ const ListPage: React.FC = () => {
   //Обработчик сортировки контактов
   const handleSelectChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     e.preventDefault();
-    console.log(e.target.options[e.target.selectedIndex].value);
-    const arr = [...data!];
+    const arr = [...data!]; //TODO Добавить action's в contactsListSlice.ts и с него рендерить контакты
     switch (e.target.options[e.target.selectedIndex].value) {
       case "ascendingAlphabet":
         arr.sort((a, b) => {

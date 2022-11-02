@@ -9,8 +9,37 @@ const contactsListSlice = createSlice({
       state = action.payload;
       return state;
     },
+    sortContacts(state, action: PayloadAction<string>) {
+      const arr = [...state];
+      switch (action.payload) {
+        case "ascendingAlphabet":
+          arr.sort((a, b) => {
+            if (a.name > b.name) {
+              return 1;
+            }
+            if (a.name < b.name) {
+              return -1;
+            }
+            return 0;
+          });
+          break;
+        case "descendingAlphabet":
+          arr.sort((a, b) => {
+            if (a.name > b.name) {
+              return -1;
+            }
+            if (a.name < b.name) {
+              return 1;
+            }
+            return 0;
+          });
+          break;
+      }
+      state = arr;
+      return state;
+    },
   },
 });
 
 export default contactsListSlice.reducer;
-export const { setContacts } = contactsListSlice.actions;
+export const { setContacts, sortContacts } = contactsListSlice.actions;

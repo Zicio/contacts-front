@@ -1,12 +1,15 @@
 import { useEffect } from "react";
+import { UseFormReset } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { NavigateFunction, useNavigate, useParams } from "react-router-dom";
+import { IContact } from "../models/models";
 import { useLogoutMutation } from "../store/api/contacts.api";
 import { activate } from "../store/popupSlice";
 import { deactivateRefresh } from "../store/refreshJWTSlice";
 import Loader from "./Loader";
 
-const UserTicket: React.FC = () => {
+const UserTicket: React.FC<{ resetForm: UseFormReset<IContact> }> = (props) => {
+  const { resetForm } = props;
   const { user } = useParams();
 
   const dispatch = useDispatch();
@@ -30,6 +33,7 @@ const UserTicket: React.FC = () => {
   //Обработчик появления формы для нового контакта
   const handleShowForm: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault();
+    resetForm();
     dispatch(activate());
   };
 

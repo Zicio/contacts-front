@@ -1,15 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { refreshJWTSliceState } from "../models/models";
+
+const interval: number = 2400000; // Интервал отправки запроса на обновления токенов доступа (чуть меньше времени жизни accessToken)
 
 const refreshJWTSlice = createSlice({
   name: "refreshJWT",
-  initialState: true,
+  initialState: interval as refreshJWTSliceState,
   reducers: {
     deactivateRefresh(state) {
-      state = false;
+      state = null;
       return state;
     },
     activateRefresh(state) {
-      state = true;
+      state = interval;
       return state;
     },
   },

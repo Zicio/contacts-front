@@ -5,7 +5,7 @@ import { useInterval } from "usehooks-ts";
 import Contact from "../components/Contact";
 import ErrorWindow from "../components/ErrorWindow";
 import Loader from "../components/Loader";
-import { CustomError, IContact } from "../models/models";
+import { CustomError, IContact, refreshJWTSliceState } from "../models/models";
 import {
   useChangeContactMutation,
   useGetContactsQuery,
@@ -18,7 +18,7 @@ import Input from "../components/Input";
 import Notification from "../components/Notification";
 import { useDispatch, useSelector } from "react-redux";
 import { deactivate } from "../store/popupSlice";
-import { setContacts } from "../store/contactsListSlice";
+import { setContacts, sortContacts } from "../store/contactsListSlice";
 import { RootState } from "../store/store";
 import UserTicket from "../components/UserTicket";
 import Select from "../components/Select";
@@ -26,21 +26,19 @@ import Select from "../components/Select";
 const ListPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate: NavigateFunction = useNavigate();
-  const interval: number = 2400000; // Интервал отправки запроса на обновления токенов доступа (чуть меньше времени жизни accessToken)
 
   // Обновление токенов доступа
   const [refreshAccess] = useLazyRefreshAccessQuery();
 
   //State для вкл/откл интервала отправки запроса на обновление токенов
-  const refresh: boolean = useSelector((state: RootState) => state.refreshJWT);
+  const refresh: refreshJWTSliceState = useSelector(
+    (state: RootState) => state.refreshJWT
+  );
 
   // Интервал отправки запроса на обновление токенов
-  useInterval(
-    () => {
-      refreshAccess();
-    },
-    refresh ? interval : null //TODO Убрать лишний State
-  );
+  useInterval(() => {
+    refreshAccess();
+  }, refresh);
 
   //Получение контактов
   const { data, isError, error, isLoading } = useGetContactsQuery();
@@ -89,34 +87,7 @@ const ListPage: React.FC = () => {
   //Обработчик сортировки контактов
   const handleSelectChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     e.preventDefault();
-    const arr = [...data!]; //TODO Добавить action's в contactsListSlice.ts и с него рендерить контакты
-    switch (e.target.options[e.target.selectedIndex].value) {
-      case "ascendingAlphabet":
-        arr.sort((a, b) => {
-          console.log(a);
-          if (a.name > b.name) {
-            return 1;
-          }
-          if (a.name < b.name) {
-            return -1;
-          }
-          return 0;
-        });
-        break;
-      case "descendingAlphabet":
-        arr.sort((a, b) => {
-          console.log(a);
-          if (a.name > b.name) {
-            return -1;
-          }
-          if (a.name < b.name) {
-            return 1;
-          }
-          return 0;
-        });
-        break;
-    }
-    dispatch(setContacts(arr));
+    dispatch(sortContacts(e.target.options[e.target.selectedIndex].value));
   };
 
   //Навигация на страницу входа при ошибке права доступа
@@ -219,17 +190,13 @@ const ListPage: React.FC = () => {
           <ErrorWindow />
         ) : (
           <>
-            <UserTicket />
+            <UserTicket resetForm={reset} />
             <main className="flex flex-col justify-start items-start mx-auto mt-[60px] h-screen box-border min-w-[400px] w-[50%] max-w-[500px]">
               {data && (
                 <>
                   <Select
                     onChange={handleSelectChange}
-                    options={[
-                      "date",
-                      "ascendingAlphabet",
-                      "descendingAlphabet",
-                    ]}
+                    options={["descendingAlphabet", "ascendingAlphabet"]}
                   />
                   <ul
                     className={`grid grid-rows-[${contacts.length}] gap-[20px] box-border w-full`}

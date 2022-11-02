@@ -37,7 +37,6 @@ export interface IPopupState {
 }
 
 export enum Sort {
-  date = "По дате создания",
   ascendingAlphabet = "↑ По имени",
   descendingAlphabet = "↓ По имени",
 }
@@ -48,3 +47,5 @@ export enum Search {
   city = "По городу проживания",
   tel = "По номеру телефона",
 }
+
+export type refreshJWTSliceState = number | null;

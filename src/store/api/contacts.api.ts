@@ -9,7 +9,7 @@ import {
 export const contactsApi = createApi({
   reducerPath: "contacts/api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:7777/",
+    baseUrl: process.env.URL || "http://localhost:7777/",
   }) as BaseQueryFn<string | FetchArgs, unknown, CustomError, {}>,
   refetchOnReconnect: true,
   tagTypes: ["Contacts"],

@@ -40,9 +40,8 @@ const contactsListSlice = createSlice({
     },
     searchContact(state, action: PayloadAction<ISearch>) {
       const { type, data, fetchData } = action.payload;
-      const result = fetchData.filter(
-        (contact) => !contact[type].includes(data)
-      );
+      const regexp = RegExp(`^${data}.*`);
+      const result = fetchData.filter((contact) => regexp.test(contact[type]));
       state = result;
       return state;
     },

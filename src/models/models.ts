@@ -1,4 +1,3 @@
-import { IContact } from "./models";
 export interface IUser {
   username?: string;
   password?: string;
@@ -52,7 +51,7 @@ export type refreshJWTSliceState = number | null;
 export type searchType = "name" | "surname" | "city" | "tel";
 
 export interface ISearch {
-  type: string;
+  type: searchType;
   data: string;
   fetchData: IContact[];
 }

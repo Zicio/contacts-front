@@ -191,6 +191,7 @@ const ListPage: React.FC = () => {
           <ErrorWindow />
         ) : (
           <>
+            <Search />
             <UserTicket resetForm={reset} />
             <main className="flex flex-col justify-start items-start mx-auto mt-[60px] h-screen box-border min-w-[400px] w-[50%] max-w-[500px]">
               {data && (
@@ -199,9 +200,8 @@ const ListPage: React.FC = () => {
                     onChange={handleSelectChange}
                     options={["descendingAlphabet", "ascendingAlphabet"]}
                   />
-                  <Search />
                   <ul
-                    className={`grid grid-rows-[${contacts.length}] gap-[20px] box-border w-full`}
+                    className={`grid grid-rows-[${contacts.length}] gap-[20px] box-border w-full mt-[10px]`}
                   >
                     {contacts.map((contact: IContact) => (
                       <Contact key={contact.id} data={contact} />

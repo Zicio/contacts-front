@@ -191,8 +191,10 @@ const ListPage: React.FC = () => {
           <ErrorWindow />
         ) : (
           <>
-            <Search />
-            <UserTicket resetForm={reset} />
+            <div className="flex justify-between items-end mb-[20px]">
+              <Search />
+              <UserTicket resetForm={reset} />
+            </div>
             <main className="flex flex-col justify-start items-start mx-auto mt-[60px] h-screen box-border min-w-[400px] w-[50%] max-w-[500px]">
               {data && (
                 <>

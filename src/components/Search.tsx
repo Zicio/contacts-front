@@ -34,7 +34,7 @@ const Search: React.FC = () => {
   }, [data]);
 
   return (
-    <div className="box grid grid-cols-[60%_40%] mb-[50px] w-full">
+    <div className="box grid grid-cols-[60%_40%] gap-[10px] w-full">
       <input
         className="input"
         type="text"

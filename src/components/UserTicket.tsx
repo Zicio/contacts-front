@@ -45,7 +45,7 @@ const UserTicket: React.FC<{ resetForm: UseFormReset<IContact> }> = (props) => {
   }, [logoutData, navigate]);
 
   return (
-    <article className="box box-border min-w-[200px] w-fit mr-0 self-end grid grid-cols-2 gap-[10px] items-center font-bold text-xl">
+    <article className="box box-border min-w-[300px] w-fit mr-0 self-end grid grid-cols-2 gap-[10px] items-center font-bold text-xl">
       <span className="text-yellow-400 text-3xl text-center italic col-start-1 col-end-2 row-start-1 row-end-2">
         {user}
       </span>

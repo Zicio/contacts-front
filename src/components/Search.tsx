@@ -1,6 +1,6 @@
 import { ChangeEventHandler, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { IContact, searchType } from "../models/models";
+import { searchType } from "../models/models";
 import { useGetContactsQuery } from "../store/api/contacts.api";
 import { searchContact, setContacts } from "../store/contactsListSlice";
 import Select from "./Select";

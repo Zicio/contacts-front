@@ -5,7 +5,13 @@ import { useInterval } from "usehooks-ts";
 import Contact from "../components/Contact";
 import ErrorWindow from "../components/ErrorWindow";
 import Loader from "../components/Loader";
-import { CustomError, IContact, refreshJWTSliceState } from "../models/models";
+import {
+  CustomError,
+  FormMethods,
+  FormSubmitHandler,
+  IContact,
+  refreshJWTSliceState,
+} from "../models/models";
 import {
   useChangeContactMutation,
   useGetContactsQuery,
@@ -126,8 +132,8 @@ const ListPage: React.FC = () => {
       {statePopup && (
         <PopupForm>
           <Form
-            onSubmit={handleContact}
-            methods={methods}
+            onSubmit={handleContact as FormSubmitHandler}
+            methods={methods as FormMethods}
             title="Создать новый контакт"
           >
             <Input

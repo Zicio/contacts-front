@@ -1,7 +1,12 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
-import { CustomError, IUser } from "../models/models";
+import {
+  CustomError,
+  FormMethods,
+  FormSubmitHandler,
+  IUser,
+} from "../models/models";
 import {
   contactsApi,
   useAuthorizationMutation,
@@ -62,7 +67,11 @@ const AuthPage: React.FC = () => {
       {isError && (error as CustomError).status !== 401 ? (
         <ErrorWindow />
       ) : (
-        <Form onSubmit={onSubmit} methods={methods} title="Вход">
+        <Form
+          onSubmit={onSubmit as FormSubmitHandler}
+          methods={methods as FormMethods}
+          title="Вход"
+        >
           <Input name="username" type="text" active={isLoading} />
           <Notification message={errors.username?.message} />
           <Input name="password" type="password" active={isLoading} />

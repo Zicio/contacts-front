@@ -1,3 +1,5 @@
+import { SubmitHandler, UseFormReturn } from "react-hook-form";
+
 export interface IUser {
   username?: string;
   password?: string;
@@ -55,3 +57,5 @@ export interface ISearch {
   data: string;
   fetchData: IContact[];
 }
+export type FormSubmitHandler = SubmitHandler<IContact | IUser>;
+export type FormMethods = UseFormReturn<IContact | IUser>;

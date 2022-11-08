@@ -1,9 +1,10 @@
-import { SubmitHandler, FormProvider, UseFormReturn } from "react-hook-form";
+import { FormProvider } from "react-hook-form";
+import { FormMethods, FormSubmitHandler } from "../models/models";
 // import { DevTool } from "@hookform/devtools";
 
 const Form: React.FC<{
-  onSubmit: SubmitHandler<any>; //TODO Пофиксить тип 'any'
-  methods: UseFormReturn<any>; //TODO Пофиксить тип 'any'
+  onSubmit: FormSubmitHandler;
+  methods: FormMethods;
   title: string;
   children: React.ReactNode;
 }> = (props) => {
